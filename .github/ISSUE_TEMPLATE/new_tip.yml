@@ -1,0 +1,26 @@
+name: New Security Tip
+description: Suggest a new security checklist item
+title: "[NEW TIP] "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: textarea
+    id: tip-description
+    attributes:
+      label: Security Tip Description
+      description: Describe the security tip and why it is important.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Authentication
+        - JWT
+        - Input Validation
+        - Database
+        - Infrastructure
+        - Other
+    validations:
+      required: true
