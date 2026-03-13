@@ -5,8 +5,15 @@
 ---
 
 [![GitHub stars](https://img.shields.io/github/stars/MrAlfak/API-Security-Checklist?style=for-the-badge)](https://github.com/MrAlfak/API-Security-Checklist/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/MrAlfak/API-Security-Checklist?style=for-the-badge)](https://github.com/MrAlfak/API-Security-Checklist/network)
+[![GitHub issues](https://img.shields.io/github/issues/MrAlfak/API-Security-Checklist?style=for-the-badge)](https://github.com/MrAlfak/API-Security-Checklist/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](http://makeapullrequest.com)
+
+> 🌟 **200+ Security Checklist Items** | 📚 **OWASP Top 10 Coverage** | 💻 **Practical Code Examples** | 🌍 **Bilingual (EN/FA)**
+
+---
 
 ## 📖 Table of Contents / فهرست مطالب
 - [English Version](#english-version)
