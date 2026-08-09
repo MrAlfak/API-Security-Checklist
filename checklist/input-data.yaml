@@ -1,0 +1,78 @@
+controls:
+  - id: INPUT-SCHEMA-001
+    title_en: Strict input schemas
+    title_fa: Schema سخت‌گیرانه ورودی
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Inputs are validated for expected structure, type, length, range, format, enum values, and business semantics; unexpected security-sensitive fields are rejected.
+    verification:
+      - Send wrong types, oversized values, unknown fields, boundary values, and invalid business-state combinations.
+      - Verify validation occurs server-side before sensitive processing.
+    evidence: [schema definitions, negative tests]
+    references: [OWASP ASVS 5.0.0, OWASP Input Validation Cheat Sheet]
+
+  - id: INPUT-INJECTION-002
+    title_en: Context-specific injection prevention
+    title_fa: جلوگیری Context-specific از Injection
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      SQL/NoSQL/OS/template/LDAP and other interpreters use safe parameterized APIs or context-appropriate defenses rather than generic sanitization.
+    verification:
+      - Exercise interpreter-specific injection payloads against each relevant sink.
+      - Review that data and executable/query syntax remain separated.
+    evidence: [SAST/review output, injection tests]
+    references: [OWASP ASVS 5.0.0, OWASP Injection Prevention Cheat Sheets]
+
+  - id: INPUT-XSS-003
+    title_en: Context-aware output encoding
+    title_fa: Encoding خروجی متناسب با Context
+    severity: high
+    applies_to: [browser-api]
+    requirement: >-
+      Untrusted data rendered in a browser is encoded for the destination context; dedicated sanitization is used only when intended HTML/markup must be accepted.
+    verification:
+      - Test untrusted values in HTML, attribute, URL, and script-adjacent contexts as applicable.
+      - Verify generic input stripping is not the primary XSS defense.
+    evidence: [template/frontend review, XSS tests]
+    references: [OWASP Cross Site Scripting Prevention Cheat Sheet]
+
+  - id: INPUT-SSRF-004
+    title_en: SSRF-resistant outbound requests
+    title_fa: درخواست خروجی مقاوم در برابر SSRF
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Server-side outbound destinations are constrained and validated with controls for protocols, DNS/IP ranges, redirects, metadata/internal targets, timeouts, and response sizes.
+    verification:
+      - Attempt loopback, private, link-local, metadata, alternate IP encoding, redirect, and DNS-rebinding scenarios as relevant.
+      - Verify egress controls block non-approved destinations.
+    evidence: [egress policy, SSRF tests, destination allowlist]
+    references: [OWASP API Security Top 10 2023 API7, OWASP SSRF Prevention Cheat Sheet]
+
+  - id: INPUT-UPLOAD-005
+    title_en: Layered file upload validation
+    title_fa: اعتبارسنجی چندلایه آپلود فایل
+    severity: high
+    applies_to: [file-api]
+    requirement: >-
+      Uploads use business-required type allowlists, content/signature validation, generated names, size limits, isolated storage, and malware/content processing where appropriate; client MIME type is not trusted.
+    verification:
+      - Spoof MIME/extension and verify content validation rejects mismatches.
+      - Test oversized, malformed, polyglot, archive traversal, and decompression-bomb cases as relevant.
+    evidence: [upload policy, scanner configuration, negative tests]
+    references: [OWASP File Upload Cheat Sheet]
+
+  - id: INPUT-UPSTREAM-006
+    title_en: Validate consumed API data
+    title_fa: اعتبارسنجی داده APIهای مصرف‌شده
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Responses from third-party and internal upstream APIs are treated as untrusted input and constrained by schema, size, timeout, redirect, TLS, and downstream encoding/parameterization rules.
+    verification:
+      - Return malformed/oversized/hostile upstream data in a test double and verify safe handling.
+      - Verify outbound credentials are scoped to required destinations and privileges.
+    evidence: [integration tests, egress configuration]
+    references: [OWASP API Security Top 10 2023 API10]
