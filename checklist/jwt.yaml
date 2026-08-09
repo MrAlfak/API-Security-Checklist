@@ -1,0 +1,65 @@
+controls:
+  - id: JWT-ALG-001
+    title_en: Explicit algorithm policy
+    title_fa: سیاست صریح الگوریتم JWT
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      JWT verification uses an explicit server-side algorithm allowlist and each key is restricted to its intended algorithm/use.
+    verification:
+      - Change the token algorithm to none or another unsupported algorithm and verify rejection.
+      - Attempt symmetric/asymmetric key confusion and verify rejection.
+    evidence: [JWT verification configuration, negative token tests]
+    references: [RFC 8725]
+
+  - id: JWT-CLAIMS-002
+    title_en: Issuer and audience validation
+    title_fa: اعتبارسنجی Issuer و Audience
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      JWT consumers validate the expected issuer, audience, cryptographic integrity, and required time/policy claims before trusting token data.
+    verification:
+      - Test wrong issuer and wrong audience tokens.
+      - Test expired/not-yet-valid tokens and failed signatures.
+    evidence: [token validation tests, verifier configuration]
+    references: [RFC 8725]
+
+  - id: JWT-TYPE-003
+    title_en: Cross-JWT confusion prevention
+    title_fa: جلوگیری از Cross-JWT Confusion
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Different token kinds use mutually exclusive validation rules and explicit purpose/type controls so a token cannot be substituted across security contexts.
+    verification:
+      - Present an ID/reset/verification token where an access token is expected and verify rejection.
+      - Verify token-type policies differ where token purposes differ.
+    evidence: [token-type matrix, negative tests]
+    references: [RFC 8725]
+
+  - id: JWT-KEY-004
+    title_en: Trusted key resolution and rotation
+    title_fa: منبع امن کلید و چرخش آن
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Signing/verification keys come only from trusted configured sources, support controlled rotation, and do not use token headers as arbitrary file/network lookup locations.
+    verification:
+      - Supply unknown or malicious kid/jku values and verify safe failure without arbitrary retrieval.
+      - Exercise planned old/new key overlap and retirement.
+    evidence: [JWKS/key configuration, rotation test]
+    references: [RFC 8725]
+
+  - id: JWT-SECRET-005
+    title_en: Signing key fails closed
+    title_fa: Fail-Closed برای کلید امضا
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Required signing/verifying key material is not hardcoded and the service fails closed when required key configuration is missing.
+    verification:
+      - Start the service without required signing key configuration and verify startup/request failure rather than automatic random-key fallback.
+      - Scan source and CI logs for embedded key material.
+    evidence: [startup test, secret scan, key-management configuration]
+    references: [RFC 8725, OWASP ASVS 5.0.0]
