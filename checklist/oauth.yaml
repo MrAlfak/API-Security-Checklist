@@ -6,10 +6,16 @@ controls:
     applies_to: [oauth-client, authorization-server]
     requirement: >-
       Authorization-code deployments use RFC 9700 PKCE guidance, prefer S256, bind the transaction securely, and reject downgrade behavior.
+    requirement_fa: >-
+      پیاده‌سازی‌های Authorization Code باید از راهنمای PKCE در RFC 9700 پیروی کنند، S256 را ترجیح دهند، تراکنش را به‌صورت امن Bind کنند و رفتارهای Downgrade را رد کنند.
     verification:
       - Exchange a code with a missing or wrong verifier and verify rejection.
       - Attempt a token request with a verifier when the authorization request had no challenge and verify downgrade protection.
+    verification_fa:
+      - تبادل Code با Verifier گمشده یا نادرست را آزمایش و رد شدن آن را بررسی کنید.
+      - زمانی که درخواست Authorization بدون Challenge بوده، درخواست Token همراه Verifier ارسال کنید و محافظت در برابر Downgrade را بررسی کنید.
     evidence: [OAuth integration tests, authorization-server configuration]
+    evidence_fa: [تست‌های یکپارچه‌سازی OAuth, پیکربندی Authorization Server]
     references: [RFC 9700]
 
   - id: OAUTH-REDIRECT-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [oauth-client, authorization-server]
     requirement: >-
       Redirect URIs are pre-registered and matched according to protocol requirements without unsafe wildcard or open-redirect behavior.
+    requirement_fa: >-
+      Redirect URIها باید از قبل ثبت شوند و مطابق الزامات پروتکل دقیقاً Match شوند؛ بدون Wildcard ناامن یا رفتار Open Redirect.
     verification:
       - Modify scheme, host, port, path, query, encoding, and subdomain and verify unauthorized redirects are rejected.
       - Test registered callback endpoints for open redirects.
+    verification_fa:
+      - Scheme، Host، Port، Path، Query، Encoding و Subdomain را تغییر دهید و رد Redirectهای غیرمجاز را بررسی کنید.
+      - Endpointهای Callback ثبت‌شده را از نظر Open Redirect آزمایش کنید.
     evidence: [client registration, redirect tests]
+    evidence_fa: [ثبت Client, تست‌های Redirect]
     references: [RFC 9700]
 
   - id: OAUTH-REFRESH-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [oauth-client, authorization-server]
     requirement: >-
       Public clients receiving refresh tokens use sender-constrained refresh tokens or rotation with reuse detection and family/grant revocation.
+    requirement_fa: >-
+      Public Clientهایی که Refresh Token دریافت می‌کنند باید از Refresh Token مقید به Sender یا Rotation همراه با تشخیص استفاده مجدد و ابطال Family/Grant استفاده کنند.
     verification:
       - Reuse an old rotated refresh token and verify the affected token family/grant is revoked as designed.
       - Verify refresh tokens remain bound to the expected client, scope, and resources.
+    verification_fa:
+      - یک Refresh Token قدیمی و Rotateشده را دوباره استفاده کنید و ابطال Family یا Grant متاثر را طبق طراحی بررسی کنید.
+      - بررسی کنید Refresh Tokenها به Client، Scope و Resourceهای مورد انتظار مقید باقی بمانند.
     evidence: [refresh-token tests, token-store configuration]
+    evidence_fa: [تست‌های Refresh Token, پیکربندی Token Store]
     references: [RFC 9700, RFC 9449, RFC 8705]
 
   - id: OAUTH-PRIVILEGE-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [authorization-server, resource-server, oauth-client]
     requirement: >-
       Access tokens carry only the minimum privileges and are restricted to the intended resource server or small explicit resource set.
+    requirement_fa: >-
+      Access Tokenها باید فقط حداقل دسترسی لازم را داشته باشند و به Resource Server موردنظر یا مجموعه کوچک و صریحی از Resourceها محدود شوند.
     verification:
       - Present a token to a resource server outside its intended audience and verify rejection.
       - Request/use excessive scopes and verify policy prevents unintended privilege.
+    verification_fa:
+      - یک Token را به Resource Server خارج از Audience موردنظر ارائه کنید و رد شدن آن را بررسی کنید.
+      - Scopeهای بیش‌ازحد را درخواست یا استفاده کنید و مطمئن شوید سیاست از دسترسی ناخواسته جلوگیری می‌کند.
     evidence: [scope policy, audience validation tests]
+    evidence_fa: [سیاست Scope, تست‌های اعتبارسنجی Audience]
     references: [RFC 9700]
 
   - id: OAUTH-LEGACY-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [oauth-client, authorization-server]
     requirement: >-
       The Resource Owner Password Credentials grant is not used and implicit-flow exposure is avoided unless a stronger applicable profile explicitly requires it.
+    requirement_fa: >-
+      Grant نوع Resource Owner Password Credentials نباید استفاده شود و از Exposure مربوط به Implicit Flow نیز باید پرهیز شود، مگر اینکه یک Profile معتبر و قوی‌تر صراحتاً آن را الزام کند.
     verification:
       - Inspect enabled grant types and client registrations.
       - Verify deprecated/unused grants are disabled.
+    verification_fa:
+      - Grant Typeهای فعال و Client Registrationها را بازبینی کنید.
+      - بررسی کنید Grantهای منسوخ یا بدون استفاده غیرفعال باشند.
     evidence: [authorization-server configuration, client inventory]
+    evidence_fa: [پیکربندی Authorization Server, موجودی Clientها]
     references: [RFC 9700]
