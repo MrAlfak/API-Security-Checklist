@@ -6,10 +6,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Inputs are validated for expected structure, type, length, range, format, enum values, and business semantics; unexpected security-sensitive fields are rejected.
+    requirement_fa: >-
+      ورودی‌ها باید از نظر ساختار، نوع، طول، بازه، فرمت، مقادیر Enum و منطق کسب‌وکار مورد انتظار اعتبارسنجی شوند و فیلدهای حساس امنیتیِ پیش‌بینی‌نشده رد شوند.
     verification:
       - Send wrong types, oversized values, unknown fields, boundary values, and invalid business-state combinations.
       - Verify validation occurs server-side before sensitive processing.
+    verification_fa:
+      - نوع‌های نادرست، مقادیر بیش‌ازحد بزرگ، فیلدهای ناشناخته، مقادیر مرزی و ترکیب‌های نامعتبر وضعیت کسب‌وکار را ارسال کنید.
+      - بررسی کنید اعتبارسنجی پیش از پردازش حساس و در سمت سرور انجام شود.
     evidence: [schema definitions, negative tests]
+    evidence_fa: [تعریف‌های Schema, تست‌های منفی]
     references: [OWASP ASVS 5.0.0, OWASP Input Validation Cheat Sheet]
 
   - id: INPUT-INJECTION-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [all]
     requirement: >-
       SQL/NoSQL/OS/template/LDAP and other interpreters use safe parameterized APIs or context-appropriate defenses rather than generic sanitization.
+    requirement_fa: >-
+      برای SQL، NoSQL، سیستم‌عامل، Template، LDAP و سایر Interpreterها باید از APIهای Parameterized امن یا دفاع متناسب با Context استفاده شود، نه Sanitization عمومی.
     verification:
       - Exercise interpreter-specific injection payloads against each relevant sink.
       - Review that data and executable/query syntax remain separated.
+    verification_fa:
+      - Payloadهای Injection مخصوص هر Interpreter را روی Sinkهای مرتبط آزمایش کنید.
+      - بررسی کنید داده از Syntax اجرایی یا Query جدا باقی بماند.
     evidence: [SAST/review output, injection tests]
+    evidence_fa: [خروجی SAST یا بازبینی کد, تست‌های Injection]
     references: [OWASP ASVS 5.0.0, OWASP Injection Prevention Cheat Sheets]
 
   - id: INPUT-XSS-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [browser-api]
     requirement: >-
       Untrusted data rendered in a browser is encoded for the destination context; dedicated sanitization is used only when intended HTML/markup must be accepted.
+    requirement_fa: >-
+      داده غیرقابل اعتماد که در مرورگر Render می‌شود باید متناسب با Context مقصد Encode شود؛ Sanitization تخصصی فقط زمانی استفاده شود که پذیرش عمدی HTML یا Markup لازم است.
     verification:
       - Test untrusted values in HTML, attribute, URL, and script-adjacent contexts as applicable.
       - Verify generic input stripping is not the primary XSS defense.
+    verification_fa:
+      - مقادیر غیرقابل اعتماد را در Contextهای HTML، Attribute، URL و مجاور Script در صورت کاربرد آزمایش کنید.
+      - بررسی کنید حذف عمومی ورودی دفاع اصلی در برابر XSS نباشد.
     evidence: [template/frontend review, XSS tests]
+    evidence_fa: [بازبینی Template یا Frontend, تست‌های XSS]
     references: [OWASP Cross Site Scripting Prevention Cheat Sheet]
 
   - id: INPUT-SSRF-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Server-side outbound destinations are constrained and validated with controls for protocols, DNS/IP ranges, redirects, metadata/internal targets, timeouts, and response sizes.
+    requirement_fa: >-
+      مقصدهای Outbound در سمت سرور باید محدود و اعتبارسنجی شوند و برای Protocol، بازه‌های DNS/IP، Redirect، مقصدهای Metadata/Internal، Timeout و اندازه پاسخ کنترل داشته باشند.
     verification:
       - Attempt loopback, private, link-local, metadata, alternate IP encoding, redirect, and DNS-rebinding scenarios as relevant.
       - Verify egress controls block non-approved destinations.
+    verification_fa:
+      - سناریوهای Loopback، Private، Link-Local، Metadata، Encoding جایگزین IP، Redirect و DNS Rebinding را در صورت مرتبط بودن آزمایش کنید.
+      - بررسی کنید کنترل‌های Egress مقصدهای تأییدنشده را مسدود کنند.
     evidence: [egress policy, SSRF tests, destination allowlist]
+    evidence_fa: [سیاست Egress, تست‌های SSRF, Allowlist مقصدها]
     references: [OWASP API Security Top 10 2023 API7, OWASP SSRF Prevention Cheat Sheet]
 
   - id: INPUT-UPLOAD-005
@@ -58,10 +82,16 @@ controls:
     applies_to: [file-api]
     requirement: >-
       Uploads use business-required type allowlists, content/signature validation, generated names, size limits, isolated storage, and malware/content processing where appropriate; client MIME type is not trusted.
+    requirement_fa: >-
+      آپلودها باید از Allowlist نوع فایل متناسب با نیاز کسب‌وکار، اعتبارسنجی محتوا یا Signature، نام تولیدشده سمت سرور، محدودیت اندازه، Storage ایزوله و در صورت نیاز پردازش Malware/Content استفاده کنند؛ MIME Type اعلام‌شده توسط Client قابل اعتماد نیست.
     verification:
       - Spoof MIME/extension and verify content validation rejects mismatches.
       - Test oversized, malformed, polyglot, archive traversal, and decompression-bomb cases as relevant.
+    verification_fa:
+      - MIME یا Extension را جعل کنید و بررسی کنید ناسازگاری با محتوای واقعی رد شود.
+      - فایل‌های Oversized، Malformed، Polyglot، Archive Traversal و Decompression Bomb را در صورت مرتبط بودن آزمایش کنید.
     evidence: [upload policy, scanner configuration, negative tests]
+    evidence_fa: [سیاست آپلود, پیکربندی Scanner, تست‌های منفی]
     references: [OWASP File Upload Cheat Sheet]
 
   - id: INPUT-UPSTREAM-006
@@ -71,8 +101,14 @@ controls:
     applies_to: [all]
     requirement: >-
       Responses from third-party and internal upstream APIs are treated as untrusted input and constrained by schema, size, timeout, redirect, TLS, and downstream encoding/parameterization rules.
+    requirement_fa: >-
+      پاسخ APIهای Third-Party و Upstream داخلی باید ورودی غیرقابل اعتماد در نظر گرفته شوند و با Schema، اندازه، Timeout، Redirect، TLS و قواعد Encoding/Parameterization پایین‌دستی محدود شوند.
     verification:
       - Return malformed/oversized/hostile upstream data in a test double and verify safe handling.
       - Verify outbound credentials are scoped to required destinations and privileges.
+    verification_fa:
+      - در Test Double داده Upstream خراب، Oversized یا مخرب برگردانید و مدیریت امن آن را بررسی کنید.
+      - بررسی کنید Credentialهای Outbound فقط به مقصدها و دسترسی‌های لازم Scope شده باشند.
     evidence: [integration tests, egress configuration]
+    evidence_fa: [تست‌های Integration, پیکربندی Egress]
     references: [OWASP API Security Top 10 2023 API10]
