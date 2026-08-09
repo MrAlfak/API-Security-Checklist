@@ -1,0 +1,104 @@
+controls:
+  - id: OPS-INVENTORY-001
+    title_en: API inventory and ownership
+    title_fa: موجودی و مالکیت API
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Deployed API hosts, gateways, versions, endpoints/services, schemas, owners, authentication modes, exposure, and data classification are inventoried and reviewed.
+    verification:
+      - Compare runtime/gateway discovery with documented inventory and contracts.
+      - Identify undocumented hosts, endpoints, versions, or authentication modes.
+    evidence: [API inventory, runtime discovery report]
+    references: [OWASP API Security Top 10 2023 API9]
+
+  - id: OPS-ZOMBIE-002
+    title_en: Shadow and zombie API removal
+    title_fa: حذف Shadow و Zombie API
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Deprecated, test, debug, shadow, and zombie API deployments are removed or strongly isolated and monitored according to lifecycle policy.
+    verification:
+      - Probe known historical versions/hosts and compare DNS/gateway/cloud assets with inventory.
+      - Verify deprecated endpoints have an enforced retirement plan.
+    evidence: [asset discovery, deprecation records]
+    references: [OWASP API Security Top 10 2023 API9]
+
+  - id: OPS-LOG-003
+    title_en: Security-safe logging and audit
+    title_fa: Logging و Audit امن
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Logs capture relevant security events while excluding plaintext passwords, session secrets, access/refresh tokens, API keys, private keys, and other authentication secrets.
+    verification:
+      - Execute representative authentication/token/upload/error flows and inspect logs for secret leakage.
+      - Verify privileged/security changes create attributable audit events.
+    evidence: [log redaction tests, audit sample]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: OPS-IR-004
+    title_en: Incident response for API credential and auth failures
+    title_fa: پاسخ به رخداد برای Credential و Authorization
+    severity: medium
+    applies_to: [all]
+    requirement: >-
+      Runbooks exist for credential/token leakage, signing-key compromise, authorization bypass, tenant data exposure, and abusive business flows and are exercised periodically.
+    verification:
+      - Tabletop at least one API credential or authorization incident.
+      - Verify responders can revoke/rotate affected credentials and identify impacted resources.
+    evidence: [incident runbook, exercise record]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: SUPPLY-DEPENDENCY-005
+    title_en: Dependency and container vulnerability management
+    title_fa: مدیریت آسیب‌پذیری Dependency و Container
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Dependencies and releasable container images are continuously inventoried/scanned, findings are triaged, and security updates/exceptions follow defined policy.
+    verification:
+      - Review SCA/container scan execution on pull requests/default branch/release process as applicable.
+      - Verify a known test finding would fail or enter the documented exception workflow.
+    evidence: [SCA/container scan output, exception policy]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: SUPPLY-SECRETS-006
+    title_en: Secret scanning and least-privilege CI credentials
+    title_fa: Secret Scan و Credential حداقلی CI
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Repositories and CI pipelines scan for exposed secrets, CI tokens use least privilege, and exposed credentials are rotated rather than merely deleted from the latest commit.
+    verification:
+      - Review repository/CI secret-scanning configuration and workflow token permissions.
+      - Use a non-production test secret pattern to verify detection path.
+    evidence: [secret scan configuration, workflow permissions]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: SUPPLY-SBOM-007
+    title_en: Software bill of materials
+    title_fa: فهرست مواد نرم‌افزاری SBOM
+    severity: medium
+    applies_to: [all]
+    requirement: >-
+      Releasable software produces an SBOM when appropriate to the organization's supply-chain risk and retains enough version/provenance data for vulnerability response.
+    verification:
+      - Generate an SBOM from a release and verify key direct/transitive components are represented.
+      - Confirm SBOM is associated with the correct release artifact/version.
+    evidence: [SBOM artifact, release metadata]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: SUPPLY-PROVENANCE-008
+    title_en: Protected release provenance
+    title_fa: Provenance امن Release
+    severity: medium
+    applies_to: [all]
+    requirement: >-
+      Release branches/workflows and production deployment credentials are protected and build provenance/signing is used where required by the supply-chain threat model.
+    verification:
+      - Review who/what can create and publish production artifacts.
+      - Verify release metadata can identify source revision and build workflow.
+    evidence: [branch/release policy, provenance/signature metadata]
+    references: [OWASP ASVS 5.0.0]

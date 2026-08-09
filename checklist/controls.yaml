@@ -1,0 +1,46 @@
+version: 1
+project: API-Security-Checklist
+schema: control-v1
+standards:
+  - OWASP API Security Top 10 2023
+  - OWASP ASVS 5.0.0
+  - NIST SP 800-63B-4
+  - RFC 9700
+  - RFC 8725
+  - RFC 9449
+  - RFC 8705
+control_files:
+  - authentication.yaml
+  - authorization.yaml
+  - oauth.yaml
+  - jwt.yaml
+  - input-data.yaml
+  - resource-transport.yaml
+  - graphql.yaml
+  - grpc.yaml
+  - websocket.yaml
+  - webhook.yaml
+  - multi-tenant.yaml
+  - operations-supply-chain.yaml
+allowed_severity:
+  - critical
+  - high
+  - medium
+  - low
+allowed_scope:
+  - all
+  - rest
+  - browser-api
+  - graphql
+  - grpc
+  - websocket
+  - sse
+  - webhook
+  - m2m
+  - public-api
+  - internal-api
+  - multi-tenant
+  - file-api
+  - oauth-client
+  - authorization-server
+  - resource-server

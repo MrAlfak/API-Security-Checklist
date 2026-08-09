@@ -1,0 +1,78 @@
+controls:
+  - id: RESOURCE-LIMITS-001
+    title_en: Request and response resource limits
+    title_fa: محدودیت منابع درخواست و پاسخ
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      APIs bound request bodies, headers, URLs, files, decompressed content, pagination, batch sizes, response sizes, execution time, and concurrency according to the abuse model.
+    verification:
+      - Exceed each configured boundary and verify controlled rejection without excessive work.
+      - Verify limits are enforced consistently across instances/gateways.
+    evidence: [gateway/application limit configuration, boundary tests]
+    references: [OWASP API Security Top 10 2023 API4]
+
+  - id: RESOURCE-RATE-002
+    title_en: Abuse-aware rate limiting
+    title_fa: Rate Limit متناسب با الگوی سوءاستفاده
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Rate limits use relevant dimensions such as identity, tenant, token, source, endpoint, resource, cost, and business action rather than relying solely on IP addresses.
+    verification:
+      - Exceed limits and verify 429/retry behavior where applicable.
+      - Attempt bypass by rotating only one dimension such as source IP.
+    evidence: [rate-limit policy, distributed counter tests]
+    references: [OWASP API Security Top 10 2023 API4, OWASP API Security Top 10 2023 API6]
+
+  - id: RESOURCE-DEADLINE-003
+    title_en: Downstream deadlines and circuit controls
+    title_fa: Deadline و کنترل سرویس‌های پایین‌دستی
+    severity: medium
+    applies_to: [all]
+    requirement: >-
+      Outbound HTTP/database/RPC/queue operations have bounded time and failure behavior so slow dependencies cannot exhaust API resources indefinitely.
+    verification:
+      - Simulate slow/unavailable dependencies and verify bounded timeouts and resource recovery.
+      - Verify retry policies do not create uncontrolled retry storms.
+    evidence: [timeout/retry configuration, resilience tests]
+    references: [OWASP API Security Top 10 2023 API4, OWASP API Security Top 10 2023 API10]
+
+  - id: TRANSPORT-TLS-004
+    title_en: Protected transport
+    title_fa: انتقال امن داده
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Sensitive API communications use authenticated TLS with certificate validation; production clients do not disable peer verification.
+    verification:
+      - Attempt plaintext or invalid-certificate connections according to scope and verify rejection/redirect policy.
+      - Search configuration for TLS verification bypasses.
+    evidence: [TLS scan, client configuration]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: TRANSPORT-BROWSER-005
+    title_en: Contextual browser security headers
+    title_fa: هدرهای امنیتی متناسب با Browser
+    severity: medium
+    applies_to: [browser-api]
+    requirement: >-
+      Browser-facing origins use relevant HSTS, nosniff, cache, CSP/frame controls according to rendered content and do not recommend legacy X-XSS-Protection filtering.
+    verification:
+      - Inspect browser-facing responses and verify relevant headers by content type/sensitivity.
+      - Verify sensitive responses use no-store when storage must be prevented and legacy XSS filter mode is not enabled.
+    evidence: [header scan, gateway/web configuration]
+    references: [OWASP HTTP Headers Cheat Sheet]
+
+  - id: TRANSPORT-CORS-006
+    title_en: Minimal CORS policy
+    title_fa: سیاست حداقلی CORS
+    severity: high
+    applies_to: [browser-api]
+    requirement: >-
+      CORS permits only required origins, methods, headers, and credential behavior; authorization remains independently enforced server-side.
+    verification:
+      - Test untrusted origins and credentialed requests.
+      - Verify a CORS-allowed origin does not gain authorization it should not have.
+    evidence: [CORS configuration, browser integration tests]
+    references: [OWASP CORS guidance, OWASP ASVS 5.0.0]

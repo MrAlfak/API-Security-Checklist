@@ -5,14 +5,18 @@ on:
   push:
     branches:
       - main
-      - agent/security-checklist-hardening
+
+permissions:
+  contents: read
 
 jobs:
   markdown:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Check markdown files
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Markdown files
         uses: DavidAnson/markdownlint-cli2-action@v19
         with:
           globs: '**/*.md'

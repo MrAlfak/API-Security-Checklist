@@ -1,0 +1,65 @@
+controls:
+  - id: WS-HANDSHAKE-001
+    title_en: WebSocket handshake authentication
+    title_fa: احراز هویت Handshake وب‌سوکت
+    severity: high
+    applies_to: [websocket]
+    requirement: >-
+      Protected WebSocket connections authenticate during establishment and reject invalid/expired credentials before sensitive subscriptions/actions.
+    verification:
+      - Connect without credentials and with expired/invalid credentials.
+      - Verify authenticated identity is bound to server-side connection state.
+    evidence: [handshake tests, authentication middleware]
+    references: [OWASP WebSocket Security Cheat Sheet]
+
+  - id: WS-MESSAGE-AUTHZ-002
+    title_en: Per-message and subscription authorization
+    title_fa: مجوزدهی هر Message و Subscription
+    severity: critical
+    applies_to: [websocket]
+    requirement: >-
+      Sensitive WebSocket messages, channels, and subscriptions are authorized server-side for the current identity and object/tenant context.
+    verification:
+      - Send a privileged message from a normal user connection.
+      - Subscribe to another user/tenant's channel or object.
+    evidence: [message-policy tests, server authorization code]
+    references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API5]
+
+  - id: WS-ORIGIN-003
+    title_en: Browser Origin validation
+    title_fa: اعتبارسنجی Origin مرورگر
+    severity: high
+    applies_to: [websocket, browser-api]
+    requirement: >-
+      Browser-accessible WebSocket endpoints validate Origin against an explicit allowed set where cross-site connection abuse is in scope.
+    verification:
+      - Initiate a browser WebSocket from an untrusted origin and verify rejection.
+      - Verify Origin validation is not treated as a replacement for authentication/authorization.
+    evidence: [origin policy, browser security tests]
+    references: [OWASP WebSocket Security Cheat Sheet]
+
+  - id: WS-REVOCATION-004
+    title_en: Authorization changes affect long-lived connections
+    title_fa: اعمال تغییر مجوز روی Connectionهای طولانی
+    severity: high
+    applies_to: [websocket, sse]
+    requirement: >-
+      Long-lived connections do not retain obsolete privileges indefinitely after session revocation, account disablement, tenant removal, or role changes.
+    verification:
+      - Revoke/change privilege during an active connection and attempt the formerly permitted action.
+      - Verify reconnection/revalidation policy is enforced.
+    evidence: [revocation tests, connection lifecycle design]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: WS-RESOURCE-005
+    title_en: WebSocket resource quotas
+    title_fa: سهمیه منابع وب‌سوکت
+    severity: high
+    applies_to: [websocket]
+    requirement: >-
+      Connection count, message size/rate, subscriptions, fan-out, idle time, and stream duration are bounded by risk-appropriate quotas.
+    verification:
+      - Open excessive connections/subscriptions and send oversized/high-rate messages.
+      - Verify resources are released after disconnect/timeout.
+    evidence: [quota configuration, load tests]
+    references: [OWASP API Security Top 10 2023 API4]

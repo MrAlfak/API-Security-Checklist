@@ -1,0 +1,65 @@
+controls:
+  - id: AUTHZ-OBJECT-001
+    title_en: Object-level authorization
+    title_fa: مجوزدهی در سطح آبجکت
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Every protected object access is authorized server-side using trusted identity and policy context.
+    verification:
+      - Attempt horizontal access to another user's object.
+      - Attempt cross-tenant access and repeat across read, update, delete, download, batch, and nested paths.
+    evidence: [authorization tests, policy implementation]
+    references: [OWASP API Security Top 10 2023 API1]
+
+  - id: AUTHZ-PROPERTY-002
+    title_en: Property-level authorization
+    title_fa: مجوزدهی در سطح فیلد
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Input and output fields are allowlisted and independently authorized so callers cannot read or modify protected properties.
+    verification:
+      - Submit privilege, owner, tenant, price, and internal-only fields and verify rejection/ignoring by policy.
+      - Verify protected response fields are omitted for insufficient privileges.
+    evidence: [DTO/schema definitions, negative tests]
+    references: [OWASP API Security Top 10 2023 API3]
+
+  - id: AUTHZ-FUNCTION-003
+    title_en: Function-level authorization
+    title_fa: مجوزدهی در سطح عملیات
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Sensitive functions enforce explicit authorization independently of route naming, HTTP method, or client UI visibility.
+    verification:
+      - Call privileged functions with a normal authenticated identity.
+      - Try alternate HTTP methods, legacy routes, and direct API invocation.
+    evidence: [policy matrix, negative tests]
+    references: [OWASP API Security Top 10 2023 API5]
+
+  - id: AUTHZ-DENY-004
+    title_en: Deny by default
+    title_fa: رد دسترسی به صورت پیش‌فرض
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      New or unmatched protected resources and operations are denied unless an explicit authorization rule permits access.
+    verification:
+      - Add or identify an unmapped protected operation and verify access is denied.
+      - Inspect policy fallback behavior.
+    evidence: [authorization configuration, policy tests]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: AUTHZ-ELEVATION-005
+    title_en: Controlled privilege elevation
+    title_fa: افزایش دسترسی کنترل‌شده
+    severity: high
+    applies_to: [internal-api, public-api, multi-tenant]
+    requirement: >-
+      Support/admin privilege elevation is explicit, time-limited where practical, attributable, and audited.
+    verification:
+      - Verify elevated access expires or is revoked according to policy.
+      - Verify audit records identify actor, target, action, and time.
+    evidence: [privilege workflow, audit logs]
+    references: [OWASP ASVS 5.0.0]

@@ -1,0 +1,65 @@
+controls:
+  - id: GRPC-TRANSPORT-001
+    title_en: gRPC protected transport
+    title_fa: انتقال امن gRPC
+    severity: critical
+    applies_to: [grpc]
+    requirement: >-
+      gRPC communications use TLS and, where the trust model requires it, mTLS/workload identity; certificate validation is not disabled in production.
+    verification:
+      - Attempt plaintext/invalid-peer connections according to exposure policy.
+      - Verify service-to-service identity is authenticated where mTLS/workload identity is required.
+    evidence: [TLS/mTLS configuration, connection tests]
+    references: [OWASP ASVS 5.0.0]
+
+  - id: GRPC-AUTHZ-002
+    title_en: Per-method gRPC authorization
+    title_fa: مجوزدهی در سطح Method در gRPC
+    severity: critical
+    applies_to: [grpc]
+    requirement: >-
+      Each protected gRPC method enforces authentication and authorization independent of network location or client-generated stubs.
+    verification:
+      - Invoke privileged methods with lower-privilege identities.
+      - Test direct calls that bypass higher-level application UI/gateways where possible.
+    evidence: [interceptor/policy configuration, authorization tests]
+    references: [OWASP API Security Top 10 2023 API5]
+
+  - id: GRPC-REFLECTION-003
+    title_en: Reflection and admin service exposure
+    title_fa: کنترل Reflection و سرویس‌های مدیریتی
+    severity: medium
+    applies_to: [grpc]
+    requirement: >-
+      gRPC reflection, health, debug, and administrative services follow explicit exposure and authorization policy.
+    verification:
+      - Enumerate accessible reflection/admin services from each network trust zone.
+      - Verify privileged diagnostic operations require intended authorization.
+    evidence: [service exposure inventory, network tests]
+    references: [OWASP API Security Top 10 2023 API8, OWASP API Security Top 10 2023 API9]
+
+  - id: GRPC-RESOURCE-004
+    title_en: gRPC message and stream limits
+    title_fa: محدودیت Message و Stream در gRPC
+    severity: high
+    applies_to: [grpc]
+    requirement: >-
+      gRPC endpoints bound message size, deadlines, concurrent calls, stream duration/count, and server-side resource amplification.
+    verification:
+      - Send oversized messages and excessive concurrent/long-lived streams.
+      - Omit/extend deadlines and verify server-side bounds remain effective.
+    evidence: [server/gateway limits, load tests]
+    references: [OWASP API Security Top 10 2023 API4]
+
+  - id: GRPC-INVENTORY-005
+    title_en: gRPC service inventory
+    title_fa: موجودی سرویس‌های gRPC
+    severity: medium
+    applies_to: [grpc, internal-api]
+    requirement: >-
+      Deployed gRPC services/methods, versions, owners, authentication modes, and exposure are inventoried and stale services are removed.
+    verification:
+      - Compare deployed/listening services with protobuf/service inventory.
+      - Identify undocumented or deprecated methods still reachable.
+    evidence: [service inventory, runtime discovery output]
+    references: [OWASP API Security Top 10 2023 API9]
