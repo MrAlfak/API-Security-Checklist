@@ -1,0 +1,65 @@
+controls:
+  - id: GRAPHQL-AUTHZ-001
+    title_en: Resolver and field authorization
+    title_fa: مجوزدهی Resolver و Field
+    severity: critical
+    applies_to: [graphql]
+    requirement: >-
+      GraphQL authorization is enforced at object/resolver/field level so nested fields, aliases, fragments, mutations, and subscriptions cannot bypass policy.
+    verification:
+      - Request protected fields through aliases/fragments/nested paths using insufficient privilege.
+      - Test mutations and subscriptions with the same authorization matrix as queries.
+    evidence: [resolver policy, GraphQL authorization tests]
+    references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API3, OWASP API Security Top 10 2023 API5]
+
+  - id: GRAPHQL-COST-002
+    title_en: Query cost and complexity limits
+    title_fa: محدودیت Cost و Complexity کوئری
+    severity: high
+    applies_to: [graphql]
+    requirement: >-
+      GraphQL requests have bounded cost/complexity using controls that account for width, depth, list cardinality, resolver cost, aliases, fragments, and fan-out; depth alone is insufficient.
+    verification:
+      - Submit shallow but very wide/aliased queries and verify cost rejection.
+      - Submit deep and high-cardinality queries and verify bounded execution.
+    evidence: [complexity policy, load/negative tests]
+    references: [OWASP API Security Top 10 2023 API4]
+
+  - id: GRAPHQL-BATCH-003
+    title_en: Batch and alias abuse controls
+    title_fa: کنترل سوءاستفاده Batch و Alias
+    severity: high
+    applies_to: [graphql]
+    requirement: >-
+      Batching, aliases, list fields, and pagination are bounded so one HTTP request cannot multiply protected or expensive operations without limit.
+    verification:
+      - Send excessive batches/aliases and verify policy limits.
+      - Attempt to bypass per-operation rate limits through batching.
+    evidence: [GraphQL gateway configuration, abuse tests]
+    references: [OWASP API Security Top 10 2023 API4, OWASP API Security Top 10 2023 API6]
+
+  - id: GRAPHQL-INTROSPECTION-004
+    title_en: Contextual introspection policy
+    title_fa: سیاست Contextual برای Introspection
+    severity: low
+    applies_to: [graphql]
+    requirement: >-
+      Introspection exposure is an explicit deployment decision; disabling introspection is treated only as defense-in-depth and never as a substitute for authorization, inventory, or complexity controls.
+    verification:
+      - Verify production introspection behavior matches documented exposure policy.
+      - Confirm protected fields remain protected regardless of introspection availability.
+    evidence: [exposure policy, endpoint test]
+    references: [OWASP GraphQL security guidance]
+
+  - id: GRAPHQL-SUBSCRIPTION-005
+    title_en: Subscription lifecycle security
+    title_fa: امنیت چرخه Subscription
+    severity: high
+    applies_to: [graphql, websocket]
+    requirement: >-
+      GraphQL subscriptions authenticate and authorize subscription creation and delivered events, and bound connection/subscription resource usage.
+    verification:
+      - Revoke/change permissions during an active subscription and verify behavior matches policy.
+      - Attempt unauthorized topic/object subscription.
+    evidence: [subscription tests, connection policy]
+    references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API4]
