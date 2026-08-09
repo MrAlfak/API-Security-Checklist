@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security reporting guidance
+    url: https://github.com/MrAlfak/API-Security-Checklist/blob/main/SECURITY.md
+    about: Do not post real secrets or sensitive vulnerability details in a public issue.
+  - name: Persian README
+    url: https://github.com/MrAlfak/API-Security-Checklist/blob/main/README.fa.md
+    about: راهنمای فارسی پروژه و شروع سریع
