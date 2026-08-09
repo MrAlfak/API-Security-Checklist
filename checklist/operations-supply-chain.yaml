@@ -6,10 +6,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Deployed API hosts, gateways, versions, endpoints/services, schemas, owners, authentication modes, exposure, and data classification are inventoried and reviewed.
+    requirement_fa: >-
+      Hostها، Gatewayها، نسخه‌ها، Endpointها یا Serviceها، Schemaها، مالکان، روش‌های احراز هویت، نوع Exposure و طبقه‌بندی داده APIهای Deployشده باید Inventory و دوره‌ای بازبینی شوند.
     verification:
       - Compare runtime/gateway discovery with documented inventory and contracts.
       - Identify undocumented hosts, endpoints, versions, or authentication modes.
+    verification_fa:
+      - Runtime یا Gateway Discovery را با Inventory و Contractهای مستند مقایسه کنید.
+      - Host، Endpoint، Version یا روش احراز هویت مستندنشده را شناسایی کنید.
     evidence: [API inventory, runtime discovery report]
+    evidence_fa: [موجودی API, گزارش Runtime Discovery]
     references: [OWASP API Security Top 10 2023 API9]
 
   - id: OPS-ZOMBIE-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Deprecated, test, debug, shadow, and zombie API deployments are removed or strongly isolated and monitored according to lifecycle policy.
+    requirement_fa: >-
+      Deploymentهای Deprecated، Test، Debug، Shadow و Zombie API باید مطابق سیاست Lifecycle حذف یا به‌شدت ایزوله و مانیتور شوند.
     verification:
       - Probe known historical versions/hosts and compare DNS/gateway/cloud assets with inventory.
       - Verify deprecated endpoints have an enforced retirement plan.
+    verification_fa:
+      - نسخه‌ها و Hostهای تاریخی شناخته‌شده را Probe کنید و Assetهای DNS، Gateway و Cloud را با Inventory مقایسه کنید.
+      - بررسی کنید Endpointهای Deprecated برنامه بازنشستگی اجرایی داشته باشند.
     evidence: [asset discovery, deprecation records]
+    evidence_fa: [Asset Discovery, سوابق Deprecation]
     references: [OWASP API Security Top 10 2023 API9]
 
   - id: OPS-LOG-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Logs capture relevant security events while excluding plaintext passwords, session secrets, access/refresh tokens, API keys, private keys, and other authentication secrets.
+    requirement_fa: >-
+      Logها باید رویدادهای امنیتی مرتبط را ثبت کنند اما رمز عبور Plaintext، Session Secret، Access/Refresh Token، API Key، Private Key و سایر Secretهای احراز هویت را ثبت نکنند.
     verification:
       - Execute representative authentication/token/upload/error flows and inspect logs for secret leakage.
       - Verify privileged/security changes create attributable audit events.
+    verification_fa:
+      - Flowهای نمونه احراز هویت، Token، Upload و Error را اجرا کنید و Logها را از نظر نشت Secret بررسی کنید.
+      - بررسی کنید تغییرات Security یا دارای دسترسی ویژه، Audit Event قابل انتساب ایجاد کنند.
     evidence: [log redaction tests, audit sample]
+    evidence_fa: [تست‌های Log Redaction, نمونه Audit]
     references: [OWASP ASVS 5.0.0]
 
   - id: OPS-IR-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Runbooks exist for credential/token leakage, signing-key compromise, authorization bypass, tenant data exposure, and abusive business flows and are exercised periodically.
+    requirement_fa: >-
+      برای نشت Credential یا Token، Compromise کلید امضا، Authorization Bypass، Exposure داده Tenant و سوءاستفاده از Business Flow باید Runbook وجود داشته باشد و به‌صورت دوره‌ای تمرین شود.
     verification:
       - Tabletop at least one API credential or authorization incident.
       - Verify responders can revoke/rotate affected credentials and identify impacted resources.
+    verification_fa:
+      - حداقل یک سناریوی رخداد Credential یا Authorization API را به‌صورت Tabletop اجرا کنید.
+      - بررسی کنید تیم پاسخ بتواند Credentialهای متاثر را باطل یا Rotate و Resourceهای متاثر را شناسایی کند.
     evidence: [incident runbook, exercise record]
+    evidence_fa: [Runbook رخداد, سابقه تمرین]
     references: [OWASP ASVS 5.0.0]
 
   - id: SUPPLY-DEPENDENCY-005
@@ -58,10 +82,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Dependencies and releasable container images are continuously inventoried/scanned, findings are triaged, and security updates/exceptions follow defined policy.
+    requirement_fa: >-
+      Dependencyها و Container Imageهای قابل Release باید به‌صورت مستمر Inventory و Scan شوند، Findingها Triage شوند و Updateها یا Exceptionهای امنیتی از سیاست تعریف‌شده پیروی کنند.
     verification:
       - Review SCA/container scan execution on pull requests/default branch/release process as applicable.
       - Verify a known test finding would fail or enter the documented exception workflow.
+    verification_fa:
+      - اجرای SCA یا Container Scan را روی Pull Request، Default Branch و فرایند Release در صورت کاربرد بازبینی کنید.
+      - بررسی کنید یک Finding آزمایشی شناخته‌شده باعث Failure یا ورود به Workflow مستند Exception شود.
     evidence: [SCA/container scan output, exception policy]
+    evidence_fa: [خروجی SCA یا Container Scan, سیاست Exception]
     references: [OWASP ASVS 5.0.0]
 
   - id: SUPPLY-SECRETS-006
@@ -71,10 +101,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Repositories and CI pipelines scan for exposed secrets, CI tokens use least privilege, and exposed credentials are rotated rather than merely deleted from the latest commit.
+    requirement_fa: >-
+      Repositoryها و Pipelineهای CI باید Secretهای افشاشده را Scan کنند، Tokenهای CI از Least Privilege استفاده کنند و Credential افشاشده Rotate شود، نه اینکه فقط از آخرین Commit حذف شود.
     verification:
       - Review repository/CI secret-scanning configuration and workflow token permissions.
       - Use a non-production test secret pattern to verify detection path.
+    verification_fa:
+      - پیکربندی Secret Scanning Repository/CI و Permissionهای Workflow Token را بازبینی کنید.
+      - از یک الگوی Secret آزمایشی غیرProduction برای بررسی مسیر Detection استفاده کنید.
     evidence: [secret scan configuration, workflow permissions]
+    evidence_fa: [پیکربندی Secret Scan, Permissionهای Workflow]
     references: [OWASP ASVS 5.0.0]
 
   - id: SUPPLY-SBOM-007
@@ -84,10 +120,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Releasable software produces an SBOM when appropriate to the organization's supply-chain risk and retains enough version/provenance data for vulnerability response.
+    requirement_fa: >-
+      نرم‌افزار قابل Release باید در صورت متناسب بودن با ریسک Supply Chain سازمان، SBOM تولید کند و اطلاعات کافی Version و Provenance برای پاسخ به آسیب‌پذیری نگه دارد.
     verification:
       - Generate an SBOM from a release and verify key direct/transitive components are represented.
       - Confirm SBOM is associated with the correct release artifact/version.
+    verification_fa:
+      - از یک Release، SBOM تولید کنید و حضور Componentهای مهم مستقیم و Transitive را بررسی کنید.
+      - تأیید کنید SBOM به Artifact و Version صحیح Release متصل باشد.
     evidence: [SBOM artifact, release metadata]
+    evidence_fa: [Artifact مربوط به SBOM, Metadata مربوط به Release]
     references: [OWASP ASVS 5.0.0]
 
   - id: SUPPLY-PROVENANCE-008
@@ -97,8 +139,14 @@ controls:
     applies_to: [all]
     requirement: >-
       Release branches/workflows and production deployment credentials are protected and build provenance/signing is used where required by the supply-chain threat model.
+    requirement_fa: >-
+      Branch و Workflowهای Release و Credentialهای Deployment در Production باید محافظت شوند و در جایی که مدل تهدید Supply Chain نیاز دارد از Build Provenance یا Signing استفاده شود.
     verification:
       - Review who/what can create and publish production artifacts.
       - Verify release metadata can identify source revision and build workflow.
+    verification_fa:
+      - بازبینی کنید چه شخص یا سیستمی می‌تواند Artifactهای Production را ایجاد و Publish کند.
+      - بررسی کنید Metadata مربوط به Release بتواند Source Revision و Build Workflow را مشخص کند.
     evidence: [branch/release policy, provenance/signature metadata]
+    evidence_fa: [سیاست Branch و Release, Metadata مربوط به Provenance یا Signature]
     references: [OWASP ASVS 5.0.0]
