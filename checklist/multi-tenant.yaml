@@ -1,0 +1,65 @@
+controls:
+  - id: TENANT-CONTEXT-001
+    title_en: Trusted tenant context
+    title_fa: Tenant Context قابل اعتماد
+    severity: critical
+    applies_to: [multi-tenant]
+    requirement: >-
+      Authoritative tenant context is derived from trusted identity/session policy and is not accepted solely from client-controlled tenant identifiers.
+    verification:
+      - Change tenant IDs in path/query/body/headers while retaining the same authenticated identity.
+      - Verify server policy derives or validates tenant membership before access.
+    evidence: [identity/tenant design, cross-tenant tests]
+    references: [OWASP API Security Top 10 2023 API1]
+
+  - id: TENANT-DATA-002
+    title_en: Data-layer tenant isolation
+    title_fa: جداسازی Tenant در لایه داده
+    severity: critical
+    applies_to: [multi-tenant]
+    requirement: >-
+      Database, search, and data-access operations enforce tenant isolation for every protected resource, including joins, filters, aggregates, batch operations, and exports.
+    verification:
+      - Use two tenants and attempt cross-tenant IDs, joins, search filters, bulk operations, and exports.
+      - Inspect representative queries/policies for mandatory tenant scoping.
+    evidence: [query/policy review, automated tenant matrix tests]
+    references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API3]
+
+  - id: TENANT-CACHE-003
+    title_en: Tenant-safe caches and storage
+    title_fa: Cache و Storage امن برای Tenant
+    severity: critical
+    applies_to: [multi-tenant]
+    requirement: >-
+      Cache keys, object-storage prefixes, CDN/private cache behavior, temporary files, and generated artifacts preserve tenant/user authorization boundaries.
+    verification:
+      - Prime cache/artifact data as one tenant and request equivalent keys as another tenant.
+      - Verify signed/private download identifiers cannot cross tenant boundaries.
+    evidence: [cache/storage key design, cross-tenant tests]
+    references: [OWASP API Security Top 10 2023 API1]
+
+  - id: TENANT-JOB-004
+    title_en: Tenant-safe background jobs
+    title_fa: Background Job امن برای Tenant
+    severity: critical
+    applies_to: [multi-tenant]
+    requirement: >-
+      Queues, scheduled jobs, retries, webhooks, asynchronous exports, and workers carry validated tenant context and cannot mix data across tenants.
+    verification:
+      - Trigger concurrent jobs for multiple tenants and inspect outputs/retries.
+      - Tamper with queued tenant/resource identifiers in a controlled test and verify validation.
+    evidence: [job payload design, worker tests]
+    references: [OWASP API Security Top 10 2023 API1]
+
+  - id: TENANT-ADMIN-005
+    title_en: Audited cross-tenant administration
+    title_fa: مدیریت Cross-Tenant قابل Audit
+    severity: high
+    applies_to: [multi-tenant, internal-api]
+    requirement: >-
+      Cross-tenant support/admin access uses explicit privileged workflows, least privilege, clear operator attribution, and security audit logging.
+    verification:
+      - Verify ordinary support identities cannot silently access arbitrary tenants.
+      - Verify privileged cross-tenant actions create complete audit records and expire/revoke as designed.
+    evidence: [admin workflow, audit logs, privilege tests]
+    references: [OWASP API Security Top 10 2023 API5, OWASP ASVS 5.0.0]
