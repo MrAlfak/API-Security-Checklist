@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this checklist, please cite it as below."
 authors:
-- family-names: "Alfak"
-  given-names: "Mr"
-title: "Ultimate API Security Checklist"
-version: 1.0.0
-date-released: 2026-01-08
+  - family-names: "Alfak"
+    given-names: "Mr"
+title: "API Security Checklist"
+version: 2.0.0
+date-released: 2026-08-09
 url: "https://github.com/MrAlfak/API-Security-Checklist"
