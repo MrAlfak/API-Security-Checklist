@@ -6,10 +6,16 @@ controls:
     applies_to: [webhook]
     requirement: >-
       Webhook receivers verify the provider-defined cryptographic signature over the exact expected raw/canonical payload using timing-safe comparison where applicable.
+    requirement_fa: >-
+      دریافت‌کننده Webhook باید Signature رمزنگاری‌شده تعریف‌شده توسط Provider را روی Payload خام یا Canonical مورد انتظار بررسی کند و در صورت کاربرد از مقایسه Timing-Safe استفاده کند.
     verification:
       - Modify payload bytes after signing and verify rejection.
       - Submit invalid/missing signatures and ambiguous signature headers.
+    verification_fa:
+      - پس از امضا، Byteهای Payload را تغییر دهید و رد شدن Event را بررسی کنید.
+      - Signature نامعتبر یا گمشده و Headerهای مبهم Signature را ارسال کنید.
     evidence: [signature tests, provider integration configuration]
+    evidence_fa: [تست‌های Signature, پیکربندی Integration با Provider]
     references: [OWASP Webhook Security guidance]
 
   - id: WEBHOOK-REPLAY-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [webhook]
     requirement: >-
       Signed timestamps/nonces/event identifiers are validated with an explicit replay window and duplicate-event handling according to provider semantics.
+    requirement_fa: >-
+      Timestamp، Nonce یا Event ID امضاشده باید با Replay Window صریح اعتبارسنجی شود و Eventهای تکراری مطابق Semantics Provider مدیریت شوند.
     verification:
       - Replay a previously valid event inside and outside the allowed window.
       - Verify duplicate event IDs do not repeat protected business effects.
+    verification_fa:
+      - یک Event قبلاً معتبر را داخل و خارج از بازه مجاز Replay کنید.
+      - بررسی کنید Event ID تکراری اثر تجاری محافظت‌شده را دوباره اجرا نکند.
     evidence: [replay tests, deduplication store/configuration]
+    evidence_fa: [تست‌های Replay, پیکربندی یا Storage مربوط به Deduplication]
     references: [OWASP API Security Top 10 2023 API10]
 
   - id: WEBHOOK-ROTATE-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [webhook]
     requirement: >-
       Webhook signing secrets support controlled rotation, overlap during rollout when necessary, and prompt revocation after compromise.
+    requirement_fa: >-
+      Secretهای امضای Webhook باید Rotation کنترل‌شده، در صورت نیاز هم‌پوشانی هنگام Rollout و ابطال سریع پس از Compromise را پشتیبانی کنند.
     verification:
       - Exercise old/new secret overlap and post-retirement rejection.
       - Verify secrets are not logged or embedded in source code.
+    verification_fa:
+      - هم‌پوشانی Secret قدیمی و جدید و رد Secret قدیمی پس از Retirement را آزمایش کنید.
+      - بررسی کنید Secretها لاگ یا در Source Code Embed نشده باشند.
     evidence: [rotation runbook, secret-management configuration]
+    evidence_fa: [Runbook چرخش Secret, پیکربندی مدیریت Secret]
     references: [OWASP ASVS 5.0.0]
 
   - id: WEBHOOK-AUTHZ-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [webhook, multi-tenant]
     requirement: >-
       A valid provider signature does not automatically authorize arbitrary tenant/object changes; event identifiers and tenant/resource relationships are validated before applying effects.
+    requirement_fa: >-
+      Signature معتبر Provider به‌تنهایی مجوز تغییر دلخواه Tenant یا Object نیست؛ Event ID و رابطه Tenant/Resource باید پیش از اعمال اثر تجاری اعتبارسنجی شوند.
     verification:
       - Use a validly signed event referencing an unexpected tenant/object and verify policy enforcement.
       - Verify event type allowlists and state transitions.
+    verification_fa:
+      - Event دارای Signature معتبر اما اشاره‌کننده به Tenant یا Object غیرمنتظره را آزمایش و اعمال Policy را بررسی کنید.
+      - Allowlist نوع Event و State Transitionها را بررسی کنید.
     evidence: [event policy tests, tenant/object validation logic]
+    evidence_fa: [تست‌های سیاست Event, منطق اعتبارسنجی Tenant یا Object]
     references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API10]
 
   - id: WEBHOOK-AVAIL-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [webhook]
     requirement: >-
       Webhook endpoints bound body size, processing time, retries, queue growth, and downstream fan-out and safely handle duplicate/out-of-order delivery.
+    requirement_fa: >-
+      Endpointهای Webhook باید اندازه Body، زمان پردازش، Retry، رشد Queue و Fan-out پایین‌دستی را محدود کنند و Delivery تکراری یا خارج از ترتیب را به‌صورت امن مدیریت کنند.
     verification:
       - Send oversized/high-rate events and simulate downstream failure.
       - Verify queue/retry policies do not create unbounded resource growth.
+    verification_fa:
+      - Eventهای Oversized یا با Rate بالا ارسال و Failure سرویس پایین‌دستی را شبیه‌سازی کنید.
+      - بررسی کنید سیاست Queue و Retry باعث رشد نامحدود منابع نشود.
     evidence: [queue/retry configuration, load tests]
+    evidence_fa: [پیکربندی Queue و Retry, تست‌های Load]
     references: [OWASP API Security Top 10 2023 API4]
