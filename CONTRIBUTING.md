@@ -1,45 +1,90 @@
 # Contributing to API Security Checklist
 
-First off, thank you for considering contributing to this project! It's people like you that make this a great resource for the developer community.
+Thank you for helping improve this project. Security guidance can cause real harm when it is stale, ambiguous, or copied without the right scope, so contributions should be evidence-based and testable.
 
-## How Can I Contribute?
+## Before contributing
 
-### Reporting Bugs
-- Check the issues to see if the bug has already been reported.
-- If not, open a new issue with a clear title and description.
+- Search existing issues and controls to avoid duplicates.
+- Prefer primary/authoritative sources: OWASP project documents, NIST publications, IETF RFCs/BCPs, and official platform/framework security documentation.
+- Do not weaken an existing recommendation without explaining the threat model and reference supporting the change.
+- Never include real API keys, passwords, tokens, private keys, production identifiers, or sensitive user data in examples.
 
-### Suggesting Enhancements
-- If you have a new security tip or a better way to explain an existing one, please open a Pull Request!
+## Changing security guidance
 
-### Pull Requests
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Commit your changes with descriptive messages.
-4. Push to your fork and submit a pull request.
+A material recommendation change should include:
 
-## Language Support
-We aim to keep this checklist bilingual (English & Persian). If you add a tip in one language, please try to provide the translation for the other as well.
+1. The affected API scope (REST, browser API, GraphQL, gRPC, WebSocket, webhook, M2M, multi-tenant, etc.).
+2. The security property being protected.
+3. An authoritative reference.
+4. A verification method or negative test.
+5. Expected audit evidence where practical.
+6. English and Persian wording updates when the change affects both user-facing versions.
+
+Avoid universal wording for contextual controls. For example, browser headers and CORS do not apply to every machine-to-machine API.
+
+## Adding or changing machine-readable controls
+
+Controls live under `checklist/` and must follow `AUDIT_CONTROL_TEMPLATE.md`.
+
+Required fields:
+
+- `id`
+- `title_en`
+- `title_fa`
+- `severity`
+- `applies_to`
+- `requirement`
+- `verification`
+- `evidence`
+- `references`
+
+Run locally before opening a PR:
+
+```bash
+ruby scripts/validate_controls.rb
+python3 scripts/security_content_regression.py
+```
+
+GitHub Actions runs the same structural/security-content checks plus Markdown linting.
+
+## Code examples
+
+Examples are educational patterns, not framework-complete production applications. New examples should:
+
+- fail closed when security configuration is missing,
+- avoid custom cryptography,
+- use parameterized/context-safe APIs,
+- include relevant authorization boundaries,
+- avoid trusting client MIME/type/identity/tenant claims,
+- show replay/resource limits where the example needs them,
+- include a short note about assumptions or omitted production concerns.
+
+If an example requires a package/library, prefer maintained mainstream components and avoid pinning readers to an obsolete API version.
+
+## Pull requests
+
+1. Fork or branch the repository.
+2. Keep the PR focused on one coherent security/documentation change when practical.
+3. Use descriptive commit messages.
+4. Update `CHANGELOG.md` for material changes.
+5. Ensure CI passes.
+6. Explain why the change is safer or more accurate, not only what text changed.
+
+## Bilingual support
+
+User-facing guidance is English/Persian. At minimum, machine-readable controls require a Persian title. Material changes to the quick guidance or high-level recommendations should preserve Persian/English parity.
 
 ---
 
-# مشارکت در چک‌لیست امنیت API
+# راهنمای مشارکت فارسی
 
-پیش از هر چیز، از اینکه قصد مشارکت در این پروژه را دارید سپاسگزاریم! افرادی مثل شما هستند که این پروژه را به منبعی عالی برای جامعه توسعه‌دهندگان تبدیل می‌کنند.
+برای تغییر توصیه‌های امنیتی، صرفاً متن جدید کافی نیست. لطفاً مشخص کنید این کنترل برای چه نوع API است، چه ریسکی را کاهش می‌دهد، چگونه باید تست شود و مرجع معتبر آن چیست.
 
-## چطور می‌توانم مشارکت کنم؟
+برای کنترل‌های جدید فایل‌های `checklist/` را براساس `AUDIT_CONTROL_TEMPLATE.md` تکمیل کنید و قبل از PR این دو دستور را اجرا کنید:
 
-### گزارش باگ
-- ابتدا بخش Issues را چک کنید تا مطمئن شوید قبلاً گزارش نشده است.
-- اگر گزارش نشده بود، یک Issue جدید با عنوان و توضیحات واضح باز کنید.
+```bash
+ruby scripts/validate_controls.rb
+python3 scripts/security_content_regression.py
+```
 
-### پیشنهاد بهبود
-- اگر نکته امنیتی جدیدی دارید یا روش بهتری برای توضیح نکات فعلی می‌شناسید، خوشحال می‌شویم Pull Request ارسال کنید!
-
-### ارسال Pull Request
-۱. پروژه را Fork کنید.
-۲. یک Branch جدید برای ویژگی یا اصلاح خود بسازید.
-۳. تغییرات خود را با پیام‌های واضح Commit کنید.
-۴. تغییرات را به Fork خود Push کرده و یک Pull Request ارسال کنید.
-
-## پشتیبانی از زبان‌ها
-ما سعی می‌کنیم این چک‌لیست را دوزبانه (انگلیسی و فارسی) نگه داریم. اگر نکته‌ای به یک زبان اضافه می‌کنید، لطفاً ترجمه آن را هم (در صورت امکان) ارائه دهید.
+هیچ Secret، Token، API Key یا داده واقعی کاربر را در مثال‌ها قرار ندهید.
