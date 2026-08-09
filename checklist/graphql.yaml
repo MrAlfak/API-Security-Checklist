@@ -6,10 +6,16 @@ controls:
     applies_to: [graphql]
     requirement: >-
       GraphQL authorization is enforced at object/resolver/field level so nested fields, aliases, fragments, mutations, and subscriptions cannot bypass policy.
+    requirement_fa: >-
+      مجوزدهی GraphQL باید در سطح Object، Resolver و Field اعمال شود تا Fieldهای تو در تو، Aliasها، Fragmentها، Mutationها و Subscriptionها نتوانند سیاست دسترسی را دور بزنند.
     verification:
       - Request protected fields through aliases/fragments/nested paths using insufficient privilege.
       - Test mutations and subscriptions with the same authorization matrix as queries.
+    verification_fa:
+      - با سطح دسترسی ناکافی، Fieldهای محافظت‌شده را از طریق Alias، Fragment و مسیرهای تو در تو درخواست کنید.
+      - Mutationها و Subscriptionها را با همان ماتریس مجوزدهی Queryها آزمایش کنید.
     evidence: [resolver policy, GraphQL authorization tests]
+    evidence_fa: [سیاست Resolver, تست‌های مجوزدهی GraphQL]
     references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API3, OWASP API Security Top 10 2023 API5]
 
   - id: GRAPHQL-COST-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [graphql]
     requirement: >-
       GraphQL requests have bounded cost/complexity using controls that account for width, depth, list cardinality, resolver cost, aliases, fragments, and fan-out; depth alone is insufficient.
+    requirement_fa: >-
+      Requestهای GraphQL باید Cost و Complexity محدود داشته باشند و کنترل‌ها Width، Depth، Cardinality لیست، Cost Resolver، Alias، Fragment و Fan-out را در نظر بگیرند؛ محدودیت Depth به‌تنهایی کافی نیست.
     verification:
       - Submit shallow but very wide/aliased queries and verify cost rejection.
       - Submit deep and high-cardinality queries and verify bounded execution.
+    verification_fa:
+      - Queryهای کم‌عمق اما بسیار عریض یا دارای Alias زیاد ارسال کنید و رد شدن بر اساس Cost را بررسی کنید.
+      - Queryهای عمیق و دارای Cardinality بالا ارسال کنید و محدود بودن اجرای آن‌ها را بررسی کنید.
     evidence: [complexity policy, load/negative tests]
+    evidence_fa: [سیاست Complexity, تست‌های Load و منفی]
     references: [OWASP API Security Top 10 2023 API4]
 
   - id: GRAPHQL-BATCH-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [graphql]
     requirement: >-
       Batching, aliases, list fields, and pagination are bounded so one HTTP request cannot multiply protected or expensive operations without limit.
+    requirement_fa: >-
+      Batching، Aliasها، List Fieldها و Pagination باید محدود شوند تا یک Request واحد HTTP نتواند عملیات حساس یا پرهزینه را بدون سقف چندبرابر کند.
     verification:
       - Send excessive batches/aliases and verify policy limits.
       - Attempt to bypass per-operation rate limits through batching.
+    verification_fa:
+      - Batchها و Aliasهای بیش‌ازحد ارسال کنید و اعمال محدودیت سیاست را بررسی کنید.
+      - تلاش کنید Rate Limit هر عملیات را از طریق Batching دور بزنید.
     evidence: [GraphQL gateway configuration, abuse tests]
+    evidence_fa: [پیکربندی GraphQL Gateway, تست‌های سوءاستفاده]
     references: [OWASP API Security Top 10 2023 API4, OWASP API Security Top 10 2023 API6]
 
   - id: GRAPHQL-INTROSPECTION-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [graphql]
     requirement: >-
       Introspection exposure is an explicit deployment decision; disabling introspection is treated only as defense-in-depth and never as a substitute for authorization, inventory, or complexity controls.
+    requirement_fa: >-
+      Exposure مربوط به Introspection باید یک تصمیم صریح Deployment باشد؛ غیرفعال کردن آن فقط Defense-in-Depth است و هرگز جایگزین مجوزدهی، Inventory یا کنترل Complexity نمی‌شود.
     verification:
       - Verify production introspection behavior matches documented exposure policy.
       - Confirm protected fields remain protected regardless of introspection availability.
+    verification_fa:
+      - بررسی کنید رفتار Introspection در Production با سیاست مستند Exposure مطابقت داشته باشد.
+      - تأیید کنید Fieldهای محافظت‌شده مستقل از فعال یا غیرفعال بودن Introspection همچنان محافظت شوند.
     evidence: [exposure policy, endpoint test]
+    evidence_fa: [سیاست Exposure, تست Endpoint]
     references: [OWASP GraphQL security guidance]
 
   - id: GRAPHQL-SUBSCRIPTION-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [graphql, websocket]
     requirement: >-
       GraphQL subscriptions authenticate and authorize subscription creation and delivered events, and bound connection/subscription resource usage.
+    requirement_fa: >-
+      GraphQL Subscriptionها باید ایجاد Subscription و Eventهای تحویلی را احراز هویت و مجوزدهی کنند و مصرف منابع Connection و Subscription را محدود نگه دارند.
     verification:
       - Revoke/change permissions during an active subscription and verify behavior matches policy.
       - Attempt unauthorized topic/object subscription.
+    verification_fa:
+      - هنگام Subscription فعال، دسترسی را تغییر دهید یا باطل کنید و تطابق رفتار با سیاست را بررسی کنید.
+      - Subscription غیرمجاز به Topic یا Object را آزمایش کنید.
     evidence: [subscription tests, connection policy]
+    evidence_fa: [تست‌های Subscription, سیاست Connection]
     references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API4]
