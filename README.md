@@ -1,22 +1,67 @@
-# 🛡️ API Security Checklist
+<p align="center">
+  <img src="assets/api-security-checklist-banner.svg" alt="API Security Checklist — audit-ready, standards-aligned API security controls" width="100%" />
+</p>
 
-**A practical, auditable, standards-aligned checklist for secure API design, implementation, verification, and operations.**
+<h1 align="center">🛡️ API Security Checklist</h1>
 
-**چک‌لیست عملی و قابل ممیزی امنیت API برای طراحی، پیاده‌سازی، تست و بهره‌برداری امن.**
+<p align="center">
+  <strong>A practical, auditable, machine-readable API security checklist for AppSec, DevSecOps, backend teams, security auditors, and penetration testers.</strong>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![OWASP API Top 10](https://img.shields.io/badge/OWASP-API%20Top%2010%202023-blue)](https://owasp.org/API-Security/)
-[![ASVS](https://img.shields.io/badge/OWASP%20ASVS-5.0.0-blue)](https://owasp.org/www-project-application-security-verification-standard/)
-[![OAuth BCP](https://img.shields.io/badge/OAuth%20Security-RFC%209700-blue)](https://www.rfc-editor.org/rfc/rfc9700.html)
-[![JWT BCP](https://img.shields.io/badge/JWT%20Security-RFC%208725-blue)](https://www.rfc-editor.org/rfc/rfc8725.html)
+<p align="center">
+  OWASP API Security Top 10 2023 • OWASP ASVS 5.0 • OAuth RFC 9700 • JWT RFC 8725 • REST • GraphQL • gRPC • WebSocket • Webhooks • Multi-tenant SaaS
+</p>
+
+<p align="center">
+  <a href="README.fa.md">🇮🇷 فارسی</a> •
+  <a href="checklist/">65 Controls</a> •
+  <a href="EXAMPLES.md">Secure Examples</a> •
+  <a href="VULNERABILITIES.md">Threats</a> •
+  <a href="STANDARDS_MAPPING.md">Standards Mapping</a> •
+  <a href="ROADMAP.md">Roadmap</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/MrAlfak/API-Security-Checklist/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/MrAlfak/API-Security-Checklist?style=for-the-badge"></a>
+  <a href="https://github.com/MrAlfak/API-Security-Checklist/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/MrAlfak/API-Security-Checklist?style=for-the-badge"></a>
+  <a href="https://github.com/MrAlfak/API-Security-Checklist/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/MrAlfak/API-Security-Checklist?style=for-the-badge"></a>
+  <a href="https://github.com/MrAlfak/API-Security-Checklist/actions/workflows/security-content.yml"><img alt="Security content validation" src="https://img.shields.io/github/actions/workflow/status/MrAlfak/API-Security-Checklist/security-content.yml?branch=main&style=for-the-badge&label=security%20checks"></a>
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge"></a>
+</p>
+
+<p align="center"><strong>65 fully bilingual EN/FA controls • 12 control families • stable IDs • verification steps • audit evidence • YAML source of truth</strong></p>
+
+> ⭐ **If this checklist saves you time, please Star the repository.** It helps more developers and security teams discover the project and supports continued maintenance.
+>
+> اگر این پروژه برای شما مفید است، با ⭐ Star کردن آن به دیده‌شدن و توسعه بیشتر پروژه کمک می‌کنید.
 
 > This project is a security baseline, not a substitute for threat modeling, architecture review, penetration testing, or risk assessment.
 >
 > این پروژه یک خط مبنای امنیتی است و جایگزین Threat Modeling، بازبینی معماری، تست نفوذ و ارزیابی ریسک نیست.
 
-## What changed
+## Why this checklist is different
 
-This repository now separates **security requirements** from general API design advice and adds verification criteria so a control can be tested instead of merely checked off.
+Most security checklists stop at advice. This repository turns guidance into **testable controls** that can be reviewed and evidenced.
+
+- **Audit-ready:** each structured control has a stable ID, severity, scope, requirement, verification steps, evidence expectations, and references.
+- **Machine-readable:** controls live in YAML under [`checklist/`](checklist/) and are validated in CI.
+- **Standards-aligned:** OWASP API Security Top 10 2023, OWASP ASVS 5.0.0, OAuth Security BCP, JWT BCP, DPoP, and OAuth mTLS.
+- **Protocol-aware:** REST, browser APIs, GraphQL, gRPC, WebSocket, webhook, M2M, internal/public APIs, and multi-tenant SaaS.
+- **Bilingual:** every structured control includes English and Persian requirements, verification steps, and evidence guidance.
+- **Practical:** includes secure implementation examples, vulnerability guidance, standards mapping, and regression checks against stale security advice.
+
+### 60-second start
+
+```bash
+git clone https://github.com/MrAlfak/API-Security-Checklist.git
+cd API-Security-Checklist
+ruby scripts/validate_controls.rb
+python3 scripts/security_content_regression.py
+```
+
+Then open [`checklist/`](checklist/) and start with **Critical** and **High** controls that match your API scope.
+
+## What's included
 
 - OWASP API Security Top 10 2023 coverage
 - OWASP ASVS 5.0.0 verification alignment
@@ -29,6 +74,8 @@ This repository now separates **security requirements** from general API design 
 - Threat and vulnerability guidance in [`VULNERABILITIES.md`](VULNERABILITIES.md)
 - Standards cross-reference in [`STANDARDS_MAPPING.md`](STANDARDS_MAPPING.md)
 - Audit control format in [`AUDIT_CONTROL_TEMPLATE.md`](AUDIT_CONTROL_TEMPLATE.md)
+- Public project direction in [`ROADMAP.md`](ROADMAP.md)
+- Persian landing guide in [`README.fa.md`](README.fa.md)
 
 ## How to use
 
@@ -291,6 +338,8 @@ Apply only where browser behavior is relevant.
 - در سیستم Multi-tenant، Tenant Isolation باید در Query، Cache، Storage، Search، Job، Export و Log بررسی شود.
 - هر کنترل امنیتی باید Evidence و روش Verification داشته باشد؛ صرفاً تیک‌زدن Checklist کافی نیست.
 
+برای راهنمای فارسی مستقل به [`README.fa.md`](README.fa.md) مراجعه کنید.
+
 </div>
 
 ## Verification and evidence
@@ -327,6 +376,18 @@ See [`STANDARDS_MAPPING.md`](STANDARDS_MAPPING.md) for project-level mappings.
 ## Contributing
 
 Security guidance becomes stale. Contributions should include a primary/authoritative reference, affected scope, verification method, and both English/Persian wording when practical. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+Need an idea? Check the public [`ROADMAP.md`](ROADMAP.md), open a Feature Request, or propose a Security Standard Update through the issue templates. Usage questions are covered in [`SUPPORT.md`](SUPPORT.md).
+
+## Support the project
+
+If API Security Checklist helps your team:
+
+- ⭐ **Star** the repository so more developers can discover it.
+- 🍴 **Fork** it to adapt controls to your environment.
+- 👀 **Watch Releases** to follow new standards and control updates.
+- 🔗 **Share** it with backend, AppSec, DevSecOps, audit, and penetration-testing teams.
+- 🧩 **Contribute** missing controls, verification steps, mappings, translations, or secure examples.
 
 ## Security reports
 
