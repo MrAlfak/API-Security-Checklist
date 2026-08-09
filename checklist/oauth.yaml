@@ -1,0 +1,65 @@
+controls:
+  - id: OAUTH-PKCE-001
+    title_en: PKCE and downgrade protection
+    title_fa: PKCE و جلوگیری از Downgrade
+    severity: critical
+    applies_to: [oauth-client, authorization-server]
+    requirement: >-
+      Authorization-code deployments use RFC 9700 PKCE guidance, prefer S256, bind the transaction securely, and reject downgrade behavior.
+    verification:
+      - Exchange a code with a missing or wrong verifier and verify rejection.
+      - Attempt a token request with a verifier when the authorization request had no challenge and verify downgrade protection.
+    evidence: [OAuth integration tests, authorization-server configuration]
+    references: [RFC 9700]
+
+  - id: OAUTH-REDIRECT-002
+    title_en: Exact redirect URI validation
+    title_fa: اعتبارسنجی دقیق Redirect URI
+    severity: critical
+    applies_to: [oauth-client, authorization-server]
+    requirement: >-
+      Redirect URIs are pre-registered and matched according to protocol requirements without unsafe wildcard or open-redirect behavior.
+    verification:
+      - Modify scheme, host, port, path, query, encoding, and subdomain and verify unauthorized redirects are rejected.
+      - Test registered callback endpoints for open redirects.
+    evidence: [client registration, redirect tests]
+    references: [RFC 9700]
+
+  - id: OAUTH-REFRESH-003
+    title_en: Refresh-token replay detection
+    title_fa: تشخیص Replay توکن Refresh
+    severity: critical
+    applies_to: [oauth-client, authorization-server]
+    requirement: >-
+      Public clients receiving refresh tokens use sender-constrained refresh tokens or rotation with reuse detection and family/grant revocation.
+    verification:
+      - Reuse an old rotated refresh token and verify the affected token family/grant is revoked as designed.
+      - Verify refresh tokens remain bound to the expected client, scope, and resources.
+    evidence: [refresh-token tests, token-store configuration]
+    references: [RFC 9700, RFC 9449, RFC 8705]
+
+  - id: OAUTH-PRIVILEGE-004
+    title_en: Scope and audience restriction
+    title_fa: محدودسازی Scope و Audience
+    severity: high
+    applies_to: [authorization-server, resource-server, oauth-client]
+    requirement: >-
+      Access tokens carry only the minimum privileges and are restricted to the intended resource server or small explicit resource set.
+    verification:
+      - Present a token to a resource server outside its intended audience and verify rejection.
+      - Request/use excessive scopes and verify policy prevents unintended privilege.
+    evidence: [scope policy, audience validation tests]
+    references: [RFC 9700]
+
+  - id: OAUTH-LEGACY-005
+    title_en: Unsafe legacy grant avoidance
+    title_fa: عدم استفاده از Grantهای قدیمی ناامن
+    severity: high
+    applies_to: [oauth-client, authorization-server]
+    requirement: >-
+      The Resource Owner Password Credentials grant is not used and implicit-flow exposure is avoided unless a stronger applicable profile explicitly requires it.
+    verification:
+      - Inspect enabled grant types and client registrations.
+      - Verify deprecated/unused grants are disabled.
+    evidence: [authorization-server configuration, client inventory]
+    references: [RFC 9700]
