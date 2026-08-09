@@ -1,0 +1,67 @@
+controls:
+  - id: AUTHN-PASSWORD-001
+    title_en: Modern password policy
+    title_fa: سیاست مدرن رمز عبور
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Single-factor passwords require at least 15 characters, support at least 64 characters,
+      do not impose arbitrary composition rules, and are checked against common/compromised-password blocklists.
+    verification:
+      - Verify a 14-character single-factor password is rejected and a compliant long passphrase is accepted.
+      - Verify no uppercase/number/symbol composition rule is required.
+      - Verify known blocked passwords are rejected.
+    evidence: [password-policy configuration, automated authentication tests]
+    references: [NIST SP 800-63B-4]
+
+  - id: AUTHN-HASH-002
+    title_en: Password storage
+    title_fa: نگهداری امن رمز عبور
+    severity: critical
+    applies_to: [all]
+    requirement: >-
+      Passwords are stored using a maintained password-specific adaptive hashing scheme with unique salts and reviewed parameters.
+    verification:
+      - Inspect the password hashing implementation and parameters.
+      - Verify plaintext or reversibly encrypted passwords are not stored or logged.
+    evidence: [implementation review, sanitized database sample]
+    references: [OWASP ASVS 5.0.0, OWASP Password Storage Cheat Sheet]
+
+  - id: AUTHN-THROTTLE-003
+    title_en: Authentication abuse throttling
+    title_fa: محدودسازی سوءاستفاده از احراز هویت
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Authentication and recovery endpoints resist online guessing and credential stuffing using risk-appropriate throttling and monitoring.
+    verification:
+      - Exceed configured login and recovery attempt thresholds and verify safe throttling.
+      - Test bypass attempts using changed IP while keeping the same account identity.
+    evidence: [rate-limit policy, negative test output, alert configuration]
+    references: [OWASP API Security Top 10 2023 API2, NIST SP 800-63B-4]
+
+  - id: AUTHN-RECOVERY-004
+    title_en: Secure account recovery
+    title_fa: بازیابی امن حساب
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Recovery tokens are high-entropy, one-time, short-lived, bound to the intended account/action, and invalidated after successful use.
+    verification:
+      - Reuse a consumed recovery token and verify rejection.
+      - Use an expired token and verify rejection without account enumeration.
+    evidence: [recovery-flow tests, token configuration]
+    references: [OWASP ASVS 5.0.0, OWASP Forgot Password Cheat Sheet]
+
+  - id: AUTHN-SESSION-005
+    title_en: Security-event session invalidation
+    title_fa: ابطال نشست در رویدادهای امنیتی
+    severity: high
+    applies_to: [all]
+    requirement: >-
+      Relevant sessions and tokens are invalidated after logout and security-sensitive events such as password reset or privilege changes according to policy.
+    verification:
+      - Attempt to reuse an affected session after logout/password change.
+      - Verify long-lived connections or cached authorization state lose obsolete privileges as designed.
+    evidence: [session tests, revocation configuration]
+    references: [OWASP ASVS 5.0.0]
