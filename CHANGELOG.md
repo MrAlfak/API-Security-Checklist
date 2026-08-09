@@ -4,6 +4,19 @@ All notable changes to this project are documented here.
 
 The project follows Semantic Versioning for tagged releases.
 
+## Unreleased
+
+### Added
+
+- GitHub-ready project banner and a dedicated Persian landing README.
+- Public roadmap, support guide, and community code of conduct.
+- Feature request and security-standard update issue forms.
+- Discoverability-focused README navigation, project metrics, quick start, and support/share calls to action.
+
+### Changed
+
+- Repositioned the README around audit-ready, machine-readable, bilingual API security controls for AppSec, DevSecOps, backend, audit, and penetration-testing audiences.
+
 ## [2.0.0] - 2026-08-09
 
 ### Added
