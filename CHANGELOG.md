@@ -9,11 +9,14 @@ The project follows Semantic Versioning for tagged releases.
 ### Added
 
 - Machine-readable security controls under `checklist/`.
+- Fully bilingual English/Persian requirements, verification steps, and evidence expectations for all 65 machine-readable controls.
 - Verification criteria and evidence requirements for audit use.
 - Standards mapping for OWASP API Security Top 10 2023, OWASP ASVS 5.0.0, RFC 9700, RFC 8725, RFC 9449, and RFC 8705.
 - Security policy and responsible disclosure guidance.
 - CI validation for Markdown and machine-readable controls.
+- CI enforcement that every control contains complete Persian fields and matching English/Persian verification and evidence item counts.
 - Coverage for multi-tenant APIs, replay resistance, shadow/zombie APIs, GraphQL cost controls, gRPC, WebSockets, webhooks, and supply-chain security.
+- Automated release workflow that creates the version tag and GitHub Release from the repository `VERSION` file.
 
 ### Changed
 

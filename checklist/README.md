@@ -2,6 +2,8 @@
 
 This directory is the audit-oriented source for structured API security controls.
 
+All 65 controls are fully bilingual: English and Persian requirements, verification steps, and evidence expectations live together under the same stable control ID.
+
 ## Structure
 
 - `controls.yaml` — index, supported scopes, severities, and control files.
@@ -23,13 +25,27 @@ This directory is the audit-oriented source for structured API security controls
 Each control includes:
 
 - stable `id`,
-- English and Persian titles,
+- `title_en` and `title_fa`,
 - `severity`,
 - `applies_to` scope tags,
-- precise `requirement`,
-- executable/reviewable `verification` steps,
-- expected `evidence`,
+- English `requirement` and Persian `requirement_fa`,
+- English `verification` and Persian `verification_fa`,
+- English `evidence` and Persian `evidence_fa`,
 - authoritative `references`.
+
+The English and Persian verification/evidence arrays must contain the same number of items so both languages describe the same audit procedure.
+
+## قالب دوزبانه فارسی
+
+هر کنترل امنیتی با یک شناسه ثابت نگه‌داری می‌شود و نسخه فارسی و انگلیسی آن در همان رکورد قرار دارد. برای استفاده فارسی:
+
+- `title_fa` عنوان کنترل است.
+- `requirement_fa` الزام امنیتی قابل اجرا را مشخص می‌کند.
+- `verification_fa` مراحل تست و بازبینی را مشخص می‌کند.
+- `evidence_fa` شواهد مورد انتظار برای Audit را مشخص می‌کند.
+- `references` مرجع فنی مشترک هر دو زبان است.
+
+ترجمه فارسی نباید معنی یا شدت کنترل انگلیسی را تغییر دهد. اصطلاحات پروتکلی استاندارد مانند OAuth، PKCE، JWT، Scope، Audience، JWKS، GraphQL و gRPC در صورت نیاز به شکل اصلی حفظ می‌شوند.
 
 ## Audit workflow
 
@@ -52,7 +68,7 @@ Run:
 ruby scripts/validate_controls.rb
 ```
 
-The validator checks required fields, duplicate IDs, scope names, severity values, and indexed control files. GitHub Actions runs the same validation for changes.
+The validator checks required fields, duplicate IDs, scope names, severity values, indexed control files, Persian content presence, and English/Persian verification/evidence item-count parity. GitHub Actions runs the same validation for changes.
 
 ## Adding a control
 
@@ -62,6 +78,7 @@ The validator checks required fields, duplicate IDs, scope names, severity value
 4. Add positive/negative verification steps where meaningful.
 5. Add evidence expectations.
 6. Cite an authoritative source.
-7. Add Persian title text and update broader Persian guidance when the recommendation materially affects it.
+7. Add `title_fa`, `requirement_fa`, `verification_fa`, and `evidence_fa` with equivalent security meaning.
+8. Keep Persian verification/evidence arrays aligned item-for-item with the English arrays.
 
 See `AUDIT_CONTROL_TEMPLATE.md` for a full template.

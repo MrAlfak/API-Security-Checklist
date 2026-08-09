@@ -6,10 +6,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Every protected object access is authorized server-side using trusted identity and policy context.
+    requirement_fa: >-
+      هر دسترسی به یک آبجکت محافظت‌شده باید در سمت سرور و بر اساس هویت قابل اعتماد و Context سیاست دسترسی مجاز یا رد شود.
     verification:
       - Attempt horizontal access to another user's object.
       - Attempt cross-tenant access and repeat across read, update, delete, download, batch, and nested paths.
+    verification_fa:
+      - دسترسی افقی به آبجکت متعلق به کاربر دیگر را آزمایش کنید.
+      - دسترسی Cross-Tenant را در مسیرهای خواندن، ویرایش، حذف، دانلود، Batch و مسیرهای تو در تو تکرار و بررسی کنید.
     evidence: [authorization tests, policy implementation]
+    evidence_fa: [تست‌های مجوزدهی, پیاده‌سازی سیاست دسترسی]
     references: [OWASP API Security Top 10 2023 API1]
 
   - id: AUTHZ-PROPERTY-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Input and output fields are allowlisted and independently authorized so callers cannot read or modify protected properties.
+    requirement_fa: >-
+      فیلدهای ورودی و خروجی باید Allowlist شوند و به‌صورت مستقل مجوزدهی شوند تا فراخواننده نتواند Propertyهای محافظت‌شده را بخواند یا تغییر دهد.
     verification:
       - Submit privilege, owner, tenant, price, and internal-only fields and verify rejection/ignoring by policy.
       - Verify protected response fields are omitted for insufficient privileges.
+    verification_fa:
+      - فیلدهایی مانند سطح دسترسی، مالک، Tenant، قیمت و فیلدهای داخلی را ارسال کنید و رد یا نادیده‌گرفتن آن‌ها طبق سیاست را بررسی کنید.
+      - بررسی کنید فیلدهای محافظت‌شده پاسخ برای کاربر فاقد دسترسی نمایش داده نشوند.
     evidence: [DTO/schema definitions, negative tests]
+    evidence_fa: [تعریف‌های DTO یا Schema, تست‌های منفی]
     references: [OWASP API Security Top 10 2023 API3]
 
   - id: AUTHZ-FUNCTION-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Sensitive functions enforce explicit authorization independently of route naming, HTTP method, or client UI visibility.
+    requirement_fa: >-
+      عملیات حساس باید مستقل از نام Route، متد HTTP یا قابل مشاهده بودن در UI کلاینت، مجوزدهی صریح سمت سرور داشته باشند.
     verification:
       - Call privileged functions with a normal authenticated identity.
       - Try alternate HTTP methods, legacy routes, and direct API invocation.
+    verification_fa:
+      - عملیات دارای دسترسی ویژه را با یک هویت عادی احراز‌شده فراخوانی کنید.
+      - متدهای جایگزین HTTP، Routeهای قدیمی و فراخوانی مستقیم API را آزمایش کنید.
     evidence: [policy matrix, negative tests]
+    evidence_fa: [ماتریس سیاست دسترسی, تست‌های منفی]
     references: [OWASP API Security Top 10 2023 API5]
 
   - id: AUTHZ-DENY-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [all]
     requirement: >-
       New or unmatched protected resources and operations are denied unless an explicit authorization rule permits access.
+    requirement_fa: >-
+      Resourceها و عملیات محافظت‌شده جدید یا بدون Rule منطبق باید به‌صورت پیش‌فرض رد شوند، مگر اینکه یک قانون صریح مجوزدهی دسترسی را اجازه دهد.
     verification:
       - Add or identify an unmapped protected operation and verify access is denied.
       - Inspect policy fallback behavior.
+    verification_fa:
+      - یک عملیات محافظت‌شده بدون Mapping را اضافه یا شناسایی کنید و رد دسترسی را بررسی کنید.
+      - رفتار Fallback سیاست مجوزدهی را بازبینی کنید.
     evidence: [authorization configuration, policy tests]
+    evidence_fa: [پیکربندی مجوزدهی, تست‌های سیاست]
     references: [OWASP ASVS 5.0.0]
 
   - id: AUTHZ-ELEVATION-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [internal-api, public-api, multi-tenant]
     requirement: >-
       Support/admin privilege elevation is explicit, time-limited where practical, attributable, and audited.
+    requirement_fa: >-
+      افزایش دسترسی برای پشتیبانی یا مدیر باید صریح، در صورت امکان زمان‌دار، قابل انتساب به اپراتور مشخص و قابل Audit باشد.
     verification:
       - Verify elevated access expires or is revoked according to policy.
       - Verify audit records identify actor, target, action, and time.
+    verification_fa:
+      - بررسی کنید دسترسی ارتقایافته مطابق سیاست منقضی یا باطل شود.
+      - بررسی کنید رکوردهای Audit شامل عامل، هدف، عملیات و زمان باشند.
     evidence: [privilege workflow, audit logs]
+    evidence_fa: [گردش‌کار افزایش دسترسی, لاگ‌های Audit]
     references: [OWASP ASVS 5.0.0]

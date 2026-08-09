@@ -6,10 +6,16 @@ controls:
     applies_to: [all]
     requirement: >-
       APIs bound request bodies, headers, URLs, files, decompressed content, pagination, batch sizes, response sizes, execution time, and concurrency according to the abuse model.
+    requirement_fa: >-
+      APIها باید بر اساس مدل سوءاستفاده برای Body درخواست، Headerها، URLها، فایل‌ها، محتوای Decompressشده، Pagination، اندازه Batch، اندازه پاسخ، زمان اجرا و Concurrency سقف مشخص داشته باشند.
     verification:
       - Exceed each configured boundary and verify controlled rejection without excessive work.
       - Verify limits are enforced consistently across instances/gateways.
+    verification_fa:
+      - از هر محدودیت پیکربندی‌شده عبور کنید و رد کنترل‌شده بدون مصرف بیش‌ازحد منابع را بررسی کنید.
+      - بررسی کنید محدودیت‌ها در همه Instanceها و Gatewayها یکسان اعمال شوند.
     evidence: [gateway/application limit configuration, boundary tests]
+    evidence_fa: [پیکربندی محدودیت Gateway یا Application, تست‌های مرزی]
     references: [OWASP API Security Top 10 2023 API4]
 
   - id: RESOURCE-RATE-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Rate limits use relevant dimensions such as identity, tenant, token, source, endpoint, resource, cost, and business action rather than relying solely on IP addresses.
+    requirement_fa: >-
+      Rate Limit باید بر ابعاد مرتبط مانند هویت، Tenant، Token، Source، Endpoint، Resource، Cost و عملیات کسب‌وکار تکیه کند و فقط به IP محدود نباشد.
     verification:
       - Exceed limits and verify 429/retry behavior where applicable.
       - Attempt bypass by rotating only one dimension such as source IP.
+    verification_fa:
+      - از محدودیت عبور کنید و در صورت کاربرد رفتار 429 و Retry را بررسی کنید.
+      - دور زدن محدودیت با تغییر فقط یک بُعد مانند Source IP را آزمایش کنید.
     evidence: [rate-limit policy, distributed counter tests]
+    evidence_fa: [سیاست Rate Limit, تست‌های Counter توزیع‌شده]
     references: [OWASP API Security Top 10 2023 API4, OWASP API Security Top 10 2023 API6]
 
   - id: RESOURCE-DEADLINE-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Outbound HTTP/database/RPC/queue operations have bounded time and failure behavior so slow dependencies cannot exhaust API resources indefinitely.
+    requirement_fa: >-
+      عملیات Outbound در HTTP، Database، RPC و Queue باید زمان و رفتار شکست محدود داشته باشند تا Dependencyهای کند نتوانند منابع API را به‌طور نامحدود مصرف کنند.
     verification:
       - Simulate slow/unavailable dependencies and verify bounded timeouts and resource recovery.
       - Verify retry policies do not create uncontrolled retry storms.
+    verification_fa:
+      - Dependencyهای کند یا خارج از دسترس را شبیه‌سازی کنید و Timeout محدود و آزادسازی منابع را بررسی کنید.
+      - بررسی کنید سیاست Retry باعث Retry Storm کنترل‌نشده نشود.
     evidence: [timeout/retry configuration, resilience tests]
+    evidence_fa: [پیکربندی Timeout و Retry, تست‌های Resilience]
     references: [OWASP API Security Top 10 2023 API4, OWASP API Security Top 10 2023 API10]
 
   - id: TRANSPORT-TLS-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Sensitive API communications use authenticated TLS with certificate validation; production clients do not disable peer verification.
+    requirement_fa: >-
+      ارتباطات حساس API باید از TLS احراز‌شده همراه با اعتبارسنجی Certificate استفاده کنند و Clientهای Production نباید Peer Verification را غیرفعال کنند.
     verification:
       - Attempt plaintext or invalid-certificate connections according to scope and verify rejection/redirect policy.
       - Search configuration for TLS verification bypasses.
+    verification_fa:
+      - اتصال Plaintext یا با Certificate نامعتبر را متناسب با Scope آزمایش و سیاست رد یا Redirect را بررسی کنید.
+      - پیکربندی را برای Bypassهای اعتبارسنجی TLS جست‌وجو کنید.
     evidence: [TLS scan, client configuration]
+    evidence_fa: [TLS Scan, پیکربندی Client]
     references: [OWASP ASVS 5.0.0]
 
   - id: TRANSPORT-BROWSER-005
@@ -58,10 +82,16 @@ controls:
     applies_to: [browser-api]
     requirement: >-
       Browser-facing origins use relevant HSTS, nosniff, cache, CSP/frame controls according to rendered content and do not recommend legacy X-XSS-Protection filtering.
+    requirement_fa: >-
+      Originهای قابل دسترس از مرورگر باید متناسب با محتوای Renderشده از HSTS، nosniff، کنترل Cache و CSP/Frame استفاده کنند و فیلتر قدیمی X-XSS-Protection را توصیه نکنند.
     verification:
       - Inspect browser-facing responses and verify relevant headers by content type/sensitivity.
       - Verify sensitive responses use no-store when storage must be prevented and legacy XSS filter mode is not enabled.
+    verification_fa:
+      - پاسخ‌های Browser-Facing را بررسی کنید و Headerهای مرتبط را بر اساس نوع و حساسیت محتوا تأیید کنید.
+      - بررسی کنید پاسخ‌های حساس در صورت لزوم no-store داشته باشند و Legacy XSS Filter Mode فعال نباشد.
     evidence: [header scan, gateway/web configuration]
+    evidence_fa: [Header Scan, پیکربندی Gateway یا Web]
     references: [OWASP HTTP Headers Cheat Sheet]
 
   - id: TRANSPORT-CORS-006
@@ -71,8 +101,14 @@ controls:
     applies_to: [browser-api]
     requirement: >-
       CORS permits only required origins, methods, headers, and credential behavior; authorization remains independently enforced server-side.
+    requirement_fa: >-
+      CORS باید فقط Originها، Methodها، Headerها و رفتار Credential موردنیاز را مجاز کند؛ مجوزدهی همچنان باید مستقل و در سمت سرور اعمال شود.
     verification:
       - Test untrusted origins and credentialed requests.
       - Verify a CORS-allowed origin does not gain authorization it should not have.
+    verification_fa:
+      - Originهای غیرقابل اعتماد و Requestهای دارای Credential را آزمایش کنید.
+      - بررسی کنید Origin مجاز در CORS به مجوزی که نباید داشته باشد دست پیدا نکند.
     evidence: [CORS configuration, browser integration tests]
+    evidence_fa: [پیکربندی CORS, تست‌های Integration مرورگر]
     references: [OWASP CORS guidance, OWASP ASVS 5.0.0]

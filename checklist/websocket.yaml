@@ -6,10 +6,16 @@ controls:
     applies_to: [websocket]
     requirement: >-
       Protected WebSocket connections authenticate during establishment and reject invalid/expired credentials before sensitive subscriptions/actions.
+    requirement_fa: >-
+      اتصال‌های محافظت‌شده WebSocket باید هنگام برقراری اتصال احراز هویت شوند و Credentialهای نامعتبر یا منقضی پیش از Subscription یا عملیات حساس رد شوند.
     verification:
       - Connect without credentials and with expired/invalid credentials.
       - Verify authenticated identity is bound to server-side connection state.
+    verification_fa:
+      - اتصال بدون Credential و همچنین با Credential منقضی یا نامعتبر را آزمایش کنید.
+      - بررسی کنید هویت احراز‌شده به Connection State سمت سرور Bind شده باشد.
     evidence: [handshake tests, authentication middleware]
+    evidence_fa: [تست‌های Handshake, Middleware احراز هویت]
     references: [OWASP WebSocket Security Cheat Sheet]
 
   - id: WS-MESSAGE-AUTHZ-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [websocket]
     requirement: >-
       Sensitive WebSocket messages, channels, and subscriptions are authorized server-side for the current identity and object/tenant context.
+    requirement_fa: >-
+      Messageها، Channelها و Subscriptionهای حساس WebSocket باید در سمت سرور و بر اساس هویت فعلی و Context آبجکت یا Tenant مجوزدهی شوند.
     verification:
       - Send a privileged message from a normal user connection.
       - Subscribe to another user/tenant's channel or object.
+    verification_fa:
+      - از Connection یک کاربر عادی Message دارای دسترسی ویژه ارسال کنید.
+      - تلاش کنید به Channel یا Object متعلق به کاربر یا Tenant دیگر Subscribe شوید.
     evidence: [message-policy tests, server authorization code]
+    evidence_fa: [تست‌های سیاست Message, کد مجوزدهی سمت سرور]
     references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API5]
 
   - id: WS-ORIGIN-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [websocket, browser-api]
     requirement: >-
       Browser-accessible WebSocket endpoints validate Origin against an explicit allowed set where cross-site connection abuse is in scope.
+    requirement_fa: >-
+      Endpointهای WebSocket قابل دسترس از مرورگر، در صورت وجود ریسک سوءاستفاده Cross-Site، باید Origin را در برابر مجموعه صریح Originهای مجاز اعتبارسنجی کنند.
     verification:
       - Initiate a browser WebSocket from an untrusted origin and verify rejection.
       - Verify Origin validation is not treated as a replacement for authentication/authorization.
+    verification_fa:
+      - از یک Origin غیرقابل اعتماد اتصال WebSocket مرورگر برقرار کنید و رد شدن آن را بررسی کنید.
+      - بررسی کنید اعتبارسنجی Origin جایگزین احراز هویت یا مجوزدهی نشده باشد.
     evidence: [origin policy, browser security tests]
+    evidence_fa: [سیاست Origin, تست‌های امنیت مرورگر]
     references: [OWASP WebSocket Security Cheat Sheet]
 
   - id: WS-REVOCATION-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [websocket, sse]
     requirement: >-
       Long-lived connections do not retain obsolete privileges indefinitely after session revocation, account disablement, tenant removal, or role changes.
+    requirement_fa: >-
+      Connectionهای طولانی‌مدت نباید پس از ابطال Session، غیرفعال شدن حساب، حذف Tenant یا تغییر Role، دسترسی‌های منسوخ را به‌طور نامحدود حفظ کنند.
     verification:
       - Revoke/change privilege during an active connection and attempt the formerly permitted action.
       - Verify reconnection/revalidation policy is enforced.
+    verification_fa:
+      - هنگام Connection فعال، دسترسی را تغییر دهید یا باطل کنید و عملیات قبلاً مجاز را دوباره آزمایش کنید.
+      - اعمال سیاست Reconnection یا Revalidation را بررسی کنید.
     evidence: [revocation tests, connection lifecycle design]
+    evidence_fa: [تست‌های ابطال, طراحی چرخه عمر Connection]
     references: [OWASP ASVS 5.0.0]
 
   - id: WS-RESOURCE-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [websocket]
     requirement: >-
       Connection count, message size/rate, subscriptions, fan-out, idle time, and stream duration are bounded by risk-appropriate quotas.
+    requirement_fa: >-
+      تعداد Connection، اندازه و Rate پیام، Subscriptionها، Fan-out، زمان Idle و مدت Stream باید با سهمیه‌های متناسب با ریسک محدود شوند.
     verification:
       - Open excessive connections/subscriptions and send oversized/high-rate messages.
       - Verify resources are released after disconnect/timeout.
+    verification_fa:
+      - Connection و Subscription بیش‌ازحد باز کنید و Messageهای Oversized یا با Rate بالا ارسال کنید.
+      - بررسی کنید منابع پس از Disconnect یا Timeout آزاد شوند.
     evidence: [quota configuration, load tests]
+    evidence_fa: [پیکربندی سهمیه منابع, تست‌های Load]
     references: [OWASP API Security Top 10 2023 API4]

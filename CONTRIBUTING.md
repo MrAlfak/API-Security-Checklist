@@ -18,13 +18,13 @@ A material recommendation change should include:
 3. An authoritative reference.
 4. A verification method or negative test.
 5. Expected audit evidence where practical.
-6. English and Persian wording updates when the change affects both user-facing versions.
+6. Equivalent English and Persian wording for machine-readable controls.
 
 Avoid universal wording for contextual controls. For example, browser headers and CORS do not apply to every machine-to-machine API.
 
 ## Adding or changing machine-readable controls
 
-Controls live under `checklist/` and must follow `AUDIT_CONTROL_TEMPLATE.md`.
+Controls live under `checklist/` and must follow the bilingual schema documented in `checklist/README.md`.
 
 Required fields:
 
@@ -34,9 +34,14 @@ Required fields:
 - `severity`
 - `applies_to`
 - `requirement`
+- `requirement_fa`
 - `verification`
+- `verification_fa`
 - `evidence`
+- `evidence_fa`
 - `references`
+
+The Persian and English text must describe the same security property. `verification_fa` must have the same number of steps as `verification`, and `evidence_fa` must have the same number of items as `evidence`.
 
 Run locally before opening a PR:
 
@@ -72,19 +77,28 @@ If an example requires a package/library, prefer maintained mainstream component
 
 ## Bilingual support
 
-User-facing guidance is English/Persian. At minimum, machine-readable controls require a Persian title. Material changes to the quick guidance or high-level recommendations should preserve Persian/English parity.
+Machine-readable controls are fully English/Persian. A control is incomplete if it contains only a Persian title. Requirement, verification steps, and evidence expectations must also be present in Persian under the corresponding `_fa` fields.
 
 ---
 
 # راهنمای مشارکت فارسی
 
-برای تغییر توصیه‌های امنیتی، صرفاً متن جدید کافی نیست. لطفاً مشخص کنید این کنترل برای چه نوع API است، چه ریسکی را کاهش می‌دهد، چگونه باید تست شود و مرجع معتبر آن چیست.
+راهنمای امنیتی این پروژه باید قابل تست، دارای Scope مشخص و مبتنی بر مرجع معتبر باشد. هنگام تغییر یک کنترل توضیح دهید چه ریسکی کاهش پیدا می‌کند و چگونه صحت آن باید بررسی شود.
 
-برای کنترل‌های جدید فایل‌های `checklist/` را براساس `AUDIT_CONTROL_TEMPLATE.md` تکمیل کنید و قبل از PR این دو دستور را اجرا کنید:
+برای کنترل‌های جدید در پوشه `checklist/` تمام فیلدهای انگلیسی و فارسی را تکمیل کنید:
+
+- `title_en` و `title_fa`
+- `requirement` و `requirement_fa`
+- `verification` و `verification_fa`
+- `evidence` و `evidence_fa`
+
+تعداد مراحل `verification_fa` باید با `verification` و تعداد آیتم‌های `evidence_fa` با `evidence` برابر باشد. معنی امنیتی نسخه فارسی و انگلیسی نیز باید یکسان بماند.
+
+قبل از PR این دستورها را اجرا کنید:
 
 ```bash
 ruby scripts/validate_controls.rb
 python3 scripts/security_content_regression.py
 ```
 
-هیچ Secret، Token، API Key یا داده واقعی کاربر را در مثال‌ها قرار ندهید.
+هیچ Secret، Token، API Key، کلید خصوصی یا داده واقعی کاربر را در مثال‌ها قرار ندهید.

@@ -7,11 +7,19 @@ controls:
     requirement: >-
       Single-factor passwords require at least 15 characters, support at least 64 characters,
       do not impose arbitrary composition rules, and are checked against common/compromised-password blocklists.
+    requirement_fa: >-
+      رمزهای عبور تک‌عاملی باید حداقل ۱۵ کاراکتر داشته باشند، دست‌کم تا ۶۴ کاراکتر را پشتیبانی کنند،
+      قواعد ترکیبی اجباری و دلخواه مانند حروف بزرگ، عدد یا نماد تحمیل نکنند و در برابر فهرست رمزهای رایج یا افشاشده بررسی شوند.
     verification:
       - Verify a 14-character single-factor password is rejected and a compliant long passphrase is accepted.
       - Verify no uppercase/number/symbol composition rule is required.
       - Verify known blocked passwords are rejected.
+    verification_fa:
+      - بررسی کنید رمز تک‌عاملی ۱۴ کاراکتری رد و یک عبارت‌عبور بلند و منطبق پذیرفته شود.
+      - بررسی کنید هیچ الزام ترکیبی برای حروف بزرگ، عدد یا نماد وجود نداشته باشد.
+      - بررسی کنید رمزهای موجود در فهرست مسدودشده رد شوند.
     evidence: [password-policy configuration, automated authentication tests]
+    evidence_fa: [پیکربندی سیاست رمز عبور, تست‌های خودکار احراز هویت]
     references: [NIST SP 800-63B-4]
 
   - id: AUTHN-HASH-002
@@ -21,10 +29,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Passwords are stored using a maintained password-specific adaptive hashing scheme with unique salts and reviewed parameters.
+    requirement_fa: >-
+      رمزهای عبور باید با یک الگوریتم هش تطبیقی مخصوص رمز عبور، نگهداری‌شده و به‌روز، همراه با Salt یکتا و پارامترهای بازبینی‌شده ذخیره شوند.
     verification:
       - Inspect the password hashing implementation and parameters.
       - Verify plaintext or reversibly encrypted passwords are not stored or logged.
+    verification_fa:
+      - پیاده‌سازی و پارامترهای هش رمز عبور را بازبینی کنید.
+      - بررسی کنید رمز عبور به‌صورت متن ساده یا رمزنگاری برگشت‌پذیر ذخیره یا لاگ نشود.
     evidence: [implementation review, sanitized database sample]
+    evidence_fa: [بازبینی پیاده‌سازی, نمونه پاک‌سازی‌شده پایگاه داده]
     references: [OWASP ASVS 5.0.0, OWASP Password Storage Cheat Sheet]
 
   - id: AUTHN-THROTTLE-003
@@ -34,10 +48,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Authentication and recovery endpoints resist online guessing and credential stuffing using risk-appropriate throttling and monitoring.
+    requirement_fa: >-
+      Endpointهای احراز هویت و بازیابی باید با محدودسازی و پایش متناسب با ریسک در برابر حدس آنلاین رمز و Credential Stuffing مقاوم باشند.
     verification:
       - Exceed configured login and recovery attempt thresholds and verify safe throttling.
       - Test bypass attempts using changed IP while keeping the same account identity.
+    verification_fa:
+      - از آستانه تعیین‌شده تلاش‌های ورود و بازیابی عبور کنید و اعمال محدودسازی ایمن را بررسی کنید.
+      - تلاش برای دور زدن محدودیت با تغییر IP و ثابت نگه داشتن هویت حساب را آزمایش کنید.
     evidence: [rate-limit policy, negative test output, alert configuration]
+    evidence_fa: [سیاست Rate Limit, خروجی تست منفی, پیکربندی هشدار]
     references: [OWASP API Security Top 10 2023 API2, NIST SP 800-63B-4]
 
   - id: AUTHN-RECOVERY-004
@@ -47,10 +67,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Recovery tokens are high-entropy, one-time, short-lived, bound to the intended account/action, and invalidated after successful use.
+    requirement_fa: >-
+      توکن‌های بازیابی باید آنتروپی بالا، یک‌بارمصرف و کوتاه‌عمر باشند، به حساب و عملیات موردنظر مقید شوند و پس از استفاده موفق باطل شوند.
     verification:
       - Reuse a consumed recovery token and verify rejection.
       - Use an expired token and verify rejection without account enumeration.
+    verification_fa:
+      - یک توکن بازیابی مصرف‌شده را دوباره استفاده کنید و رد شدن آن را بررسی کنید.
+      - یک توکن منقضی را استفاده کنید و مطمئن شوید بدون افشای امکان شناسایی حساب رد می‌شود.
     evidence: [recovery-flow tests, token configuration]
+    evidence_fa: [تست‌های جریان بازیابی, پیکربندی توکن]
     references: [OWASP ASVS 5.0.0, OWASP Forgot Password Cheat Sheet]
 
   - id: AUTHN-SESSION-005
@@ -60,8 +86,14 @@ controls:
     applies_to: [all]
     requirement: >-
       Relevant sessions and tokens are invalidated after logout and security-sensitive events such as password reset or privilege changes according to policy.
+    requirement_fa: >-
+      نشست‌ها و توکن‌های مرتبط باید مطابق سیاست، پس از خروج و رویدادهای حساس امنیتی مانند بازنشانی رمز عبور یا تغییر سطح دسترسی باطل شوند.
     verification:
       - Attempt to reuse an affected session after logout/password change.
       - Verify long-lived connections or cached authorization state lose obsolete privileges as designed.
+    verification_fa:
+      - پس از خروج یا تغییر رمز عبور، استفاده مجدد از نشست متاثر را آزمایش کنید.
+      - بررسی کنید اتصال‌های طولانی‌مدت یا وضعیت مجوزدهی Cacheشده، دسترسی‌های منسوخ را طبق طراحی از دست بدهند.
     evidence: [session tests, revocation configuration]
+    evidence_fa: [تست‌های نشست, پیکربندی ابطال]
     references: [OWASP ASVS 5.0.0]

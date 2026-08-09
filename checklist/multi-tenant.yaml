@@ -6,10 +6,16 @@ controls:
     applies_to: [multi-tenant]
     requirement: >-
       Authoritative tenant context is derived from trusted identity/session policy and is not accepted solely from client-controlled tenant identifiers.
+    requirement_fa: >-
+      Tenant Context معتبر باید از هویت قابل اعتماد یا سیاست Session استخراج شود و صرفاً بر اساس Tenant ID کنترل‌شده توسط Client پذیرفته نشود.
     verification:
       - Change tenant IDs in path/query/body/headers while retaining the same authenticated identity.
       - Verify server policy derives or validates tenant membership before access.
+    verification_fa:
+      - با حفظ همان هویت احراز‌شده، Tenant ID را در Path، Query، Body و Header تغییر دهید.
+      - بررسی کنید سیاست سمت سرور پیش از دسترسی، عضویت Tenant را استخراج یا اعتبارسنجی کند.
     evidence: [identity/tenant design, cross-tenant tests]
+    evidence_fa: [طراحی هویت و Tenant, تست‌های Cross-Tenant]
     references: [OWASP API Security Top 10 2023 API1]
 
   - id: TENANT-DATA-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [multi-tenant]
     requirement: >-
       Database, search, and data-access operations enforce tenant isolation for every protected resource, including joins, filters, aggregates, batch operations, and exports.
+    requirement_fa: >-
+      عملیات Database، Search و Data Access باید جداسازی Tenant را برای تمام Resourceهای محافظت‌شده، از جمله Join، Filter، Aggregate، Batch و Export اعمال کنند.
     verification:
       - Use two tenants and attempt cross-tenant IDs, joins, search filters, bulk operations, and exports.
       - Inspect representative queries/policies for mandatory tenant scoping.
+    verification_fa:
+      - با دو Tenant، دسترسی از طریق IDهای Cross-Tenant، Join، Search Filter، عملیات Bulk و Export را آزمایش کنید.
+      - Queryها و Policyهای نمونه را برای اعمال اجباری Tenant Scope بازبینی کنید.
     evidence: [query/policy review, automated tenant matrix tests]
+    evidence_fa: [بازبینی Query و Policy, تست‌های خودکار ماتریس Tenant]
     references: [OWASP API Security Top 10 2023 API1, OWASP API Security Top 10 2023 API3]
 
   - id: TENANT-CACHE-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [multi-tenant]
     requirement: >-
       Cache keys, object-storage prefixes, CDN/private cache behavior, temporary files, and generated artifacts preserve tenant/user authorization boundaries.
+    requirement_fa: >-
+      Cache Keyها، Prefixهای Object Storage، رفتار CDN یا Private Cache، فایل‌های موقت و Artifactهای تولیدشده باید مرزهای مجوزدهی Tenant و User را حفظ کنند.
     verification:
       - Prime cache/artifact data as one tenant and request equivalent keys as another tenant.
       - Verify signed/private download identifiers cannot cross tenant boundaries.
+    verification_fa:
+      - به‌عنوان یک Tenant داده Cache یا Artifact ایجاد کنید و همان Keyها را از Tenant دیگر درخواست کنید.
+      - بررسی کنید شناسه‌های دانلود Signed یا Private نتوانند از مرز Tenant عبور کنند.
     evidence: [cache/storage key design, cross-tenant tests]
+    evidence_fa: [طراحی Key در Cache یا Storage, تست‌های Cross-Tenant]
     references: [OWASP API Security Top 10 2023 API1]
 
   - id: TENANT-JOB-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [multi-tenant]
     requirement: >-
       Queues, scheduled jobs, retries, webhooks, asynchronous exports, and workers carry validated tenant context and cannot mix data across tenants.
+    requirement_fa: >-
+      Queueها، Jobهای زمان‌بندی‌شده، Retryها، Webhookها، Exportهای Async و Workerها باید Tenant Context اعتبارسنجی‌شده را حمل کنند و نتوانند داده Tenantها را با هم مخلوط کنند.
     verification:
       - Trigger concurrent jobs for multiple tenants and inspect outputs/retries.
       - Tamper with queued tenant/resource identifiers in a controlled test and verify validation.
+    verification_fa:
+      - برای چند Tenant به‌صورت هم‌زمان Job اجرا کنید و Output و Retryها را بررسی کنید.
+      - در تست کنترل‌شده Tenant/Resource ID داخل Queue را دست‌کاری کنید و اعتبارسنجی را بررسی کنید.
     evidence: [job payload design, worker tests]
+    evidence_fa: [طراحی Payload مربوط به Job, تست‌های Worker]
     references: [OWASP API Security Top 10 2023 API1]
 
   - id: TENANT-ADMIN-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [multi-tenant, internal-api]
     requirement: >-
       Cross-tenant support/admin access uses explicit privileged workflows, least privilege, clear operator attribution, and security audit logging.
+    requirement_fa: >-
+      دسترسی پشتیبانی یا مدیریتی Cross-Tenant باید از Workflow صریح دارای دسترسی ویژه، Least Privilege، انتساب روشن اپراتور و Security Audit Logging استفاده کند.
     verification:
       - Verify ordinary support identities cannot silently access arbitrary tenants.
       - Verify privileged cross-tenant actions create complete audit records and expire/revoke as designed.
+    verification_fa:
+      - بررسی کنید هویت‌های عادی پشتیبانی نتوانند بدون ردپا به Tenant دلخواه دسترسی پیدا کنند.
+      - بررسی کنید عملیات ویژه Cross-Tenant رکورد کامل Audit ایجاد کنند و طبق طراحی منقضی یا باطل شوند.
     evidence: [admin workflow, audit logs, privilege tests]
+    evidence_fa: [Workflow مدیریتی, لاگ‌های Audit, تست‌های دسترسی ویژه]
     references: [OWASP API Security Top 10 2023 API5, OWASP ASVS 5.0.0]

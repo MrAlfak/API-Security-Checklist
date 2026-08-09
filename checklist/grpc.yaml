@@ -6,10 +6,16 @@ controls:
     applies_to: [grpc]
     requirement: >-
       gRPC communications use TLS and, where the trust model requires it, mTLS/workload identity; certificate validation is not disabled in production.
+    requirement_fa: >-
+      ارتباطات gRPC باید از TLS و در صورت نیاز مدل اعتماد، از mTLS یا Workload Identity استفاده کنند؛ اعتبارسنجی Certificate در Production نباید غیرفعال شود.
     verification:
       - Attempt plaintext/invalid-peer connections according to exposure policy.
       - Verify service-to-service identity is authenticated where mTLS/workload identity is required.
+    verification_fa:
+      - اتصال Plaintext یا Peer نامعتبر را مطابق سیاست Exposure آزمایش کنید.
+      - در جایی که mTLS یا Workload Identity الزامی است، احراز هویت سرویس‌به‌سرویس را بررسی کنید.
     evidence: [TLS/mTLS configuration, connection tests]
+    evidence_fa: [پیکربندی TLS یا mTLS, تست‌های Connection]
     references: [OWASP ASVS 5.0.0]
 
   - id: GRPC-AUTHZ-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [grpc]
     requirement: >-
       Each protected gRPC method enforces authentication and authorization independent of network location or client-generated stubs.
+    requirement_fa: >-
+      هر Method محافظت‌شده gRPC باید مستقل از محل شبکه یا Stub تولیدشده سمت Client، احراز هویت و مجوزدهی را اعمال کند.
     verification:
       - Invoke privileged methods with lower-privilege identities.
       - Test direct calls that bypass higher-level application UI/gateways where possible.
+    verification_fa:
+      - Methodهای دارای دسترسی ویژه را با هویت کم‌دسترسی فراخوانی کنید.
+      - در صورت امکان فراخوانی مستقیم را که UI یا Gateway سطح بالاتر را دور می‌زند آزمایش کنید.
     evidence: [interceptor/policy configuration, authorization tests]
+    evidence_fa: [پیکربندی Interceptor یا Policy, تست‌های مجوزدهی]
     references: [OWASP API Security Top 10 2023 API5]
 
   - id: GRPC-REFLECTION-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [grpc]
     requirement: >-
       gRPC reflection, health, debug, and administrative services follow explicit exposure and authorization policy.
+    requirement_fa: >-
+      سرویس‌های Reflection، Health، Debug و مدیریتی gRPC باید از سیاست صریح Exposure و مجوزدهی پیروی کنند.
     verification:
       - Enumerate accessible reflection/admin services from each network trust zone.
       - Verify privileged diagnostic operations require intended authorization.
+    verification_fa:
+      - سرویس‌های Reflection و Admin قابل دسترس را از هر Trust Zone شبکه Enumerate کنید.
+      - بررسی کنید عملیات تشخیصی دارای دسترسی ویژه، مجوزدهی موردنظر را الزام کنند.
     evidence: [service exposure inventory, network tests]
+    evidence_fa: [موجودی Exposure سرویس‌ها, تست‌های شبکه]
     references: [OWASP API Security Top 10 2023 API8, OWASP API Security Top 10 2023 API9]
 
   - id: GRPC-RESOURCE-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [grpc]
     requirement: >-
       gRPC endpoints bound message size, deadlines, concurrent calls, stream duration/count, and server-side resource amplification.
+    requirement_fa: >-
+      Endpointهای gRPC باید اندازه Message، Deadline، فراخوانی‌های هم‌زمان، مدت/تعداد Stream و Resource Amplification سمت سرور را محدود کنند.
     verification:
       - Send oversized messages and excessive concurrent/long-lived streams.
       - Omit/extend deadlines and verify server-side bounds remain effective.
+    verification_fa:
+      - Messageهای Oversized و Streamهای هم‌زمان یا طولانی بیش‌ازحد ارسال کنید.
+      - Deadline را حذف یا بیش‌ازحد افزایش دهید و بررسی کنید محدودیت سمت سرور همچنان مؤثر باشد.
     evidence: [server/gateway limits, load tests]
+    evidence_fa: [محدودیت‌های Server یا Gateway, تست‌های Load]
     references: [OWASP API Security Top 10 2023 API4]
 
   - id: GRPC-INVENTORY-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [grpc, internal-api]
     requirement: >-
       Deployed gRPC services/methods, versions, owners, authentication modes, and exposure are inventoried and stale services are removed.
+    requirement_fa: >-
+      سرویس‌ها و Methodهای Deployشده gRPC، نسخه‌ها، مالکان، روش‌های احراز هویت و نوع Exposure باید Inventory شوند و سرویس‌های Stale حذف شوند.
     verification:
       - Compare deployed/listening services with protobuf/service inventory.
       - Identify undocumented or deprecated methods still reachable.
+    verification_fa:
+      - سرویس‌های Deployشده یا Listening را با Inventory مربوط به Protobuf/Service مقایسه کنید.
+      - Methodهای مستندنشده یا Deprecated که هنوز قابل دسترس‌اند شناسایی کنید.
     evidence: [service inventory, runtime discovery output]
+    evidence_fa: [موجودی سرویس‌ها, خروجی Runtime Discovery]
     references: [OWASP API Security Top 10 2023 API9]

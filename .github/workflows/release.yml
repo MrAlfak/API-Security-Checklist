@@ -1,0 +1,77 @@
+name: Release Version
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - VERSION
+      - CHANGELOG.md
+      - .github/workflows/release.yml
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create version tag and release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          TARGET_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          version="$(tr -d '[:space:]' < VERSION)"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid VERSION: $version" >&2
+            exit 1
+          fi
+
+          tag="v${version}"
+          api="https://api.github.com/repos/${REPOSITORY}"
+          auth_header="Authorization: Bearer ${GITHUB_TOKEN}"
+          accept_header="Accept: application/vnd.github+json"
+          version_header="X-GitHub-Api-Version: 2022-11-28"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${tag}" >/dev/null 2>&1; then
+            echo "Tag ${tag} already exists."
+          else
+            payload="$(jq -n --arg ref "refs/tags/${tag}" --arg sha "${TARGET_SHA}" '{ref: $ref, sha: $sha}')"
+            curl --fail-with-body --silent --show-error \
+              -X POST \
+              -H "$auth_header" \
+              -H "$accept_header" \
+              -H "$version_header" \
+              "${api}/git/refs" \
+              -d "$payload"
+            echo "Created tag ${tag} at ${TARGET_SHA}."
+          fi
+
+          if curl --fail --silent \
+            -H "$auth_header" \
+            -H "$accept_header" \
+            -H "$version_header" \
+            "${api}/releases/tags/${tag}" >/dev/null 2>&1; then
+            echo "Release ${tag} already exists."
+          else
+            release_payload="$(jq -n \
+              --arg tag "$tag" \
+              --arg name "$tag" \
+              '{tag_name: $tag, name: $name, draft: false, prerelease: false, generate_release_notes: true}')"
+            curl --fail-with-body --silent --show-error \
+              -X POST \
+              -H "$auth_header" \
+              -H "$accept_header" \
+              -H "$version_header" \
+              "${api}/releases" \
+              -d "$release_payload"
+            echo "Created GitHub Release ${tag}."
+          fi

@@ -7,7 +7,15 @@ require 'set'
 ROOT = File.expand_path('..', __dir__)
 CHECKLIST_DIR = File.join(ROOT, 'checklist')
 INDEX_PATH = File.join(CHECKLIST_DIR, 'controls.yaml')
-REQUIRED = %w[id title_en title_fa severity applies_to requirement verification evidence references].freeze
+REQUIRED = %w[
+  id title_en title_fa severity applies_to
+  requirement requirement_fa
+  verification verification_fa
+  evidence evidence_fa
+  references
+].freeze
+ARRAY_FIELDS = %w[verification verification_fa evidence evidence_fa references].freeze
+PERSIAN_PATTERN = /[\u0600-\u06FF]/.freeze
 
 errors = []
 
@@ -84,9 +92,36 @@ files.each do |relative|
       errors << "#{label}: applies_to must be an array"
     end
 
-    %w[verification evidence references].each do |field|
+    ARRAY_FIELDS.each do |field|
       value = control[field]
       errors << "#{label}: #{field} must be a non-empty array" unless value.is_a?(Array) && !value.empty?
+    end
+
+    if control['verification'].is_a?(Array) && control['verification_fa'].is_a?(Array) &&
+       control['verification'].length != control['verification_fa'].length
+      errors << "#{label}: verification_fa item count must match verification"
+    end
+
+    if control['evidence'].is_a?(Array) && control['evidence_fa'].is_a?(Array) &&
+       control['evidence'].length != control['evidence_fa'].length
+      errors << "#{label}: evidence_fa item count must match evidence"
+    end
+
+    %w[title_fa requirement_fa].each do |field|
+      value = control[field]
+      if value.is_a?(String) && !value.match?(PERSIAN_PATTERN)
+        errors << "#{label}: #{field} must contain Persian text"
+      end
+    end
+
+    if control['verification_fa'].is_a?(Array) &&
+       !control['verification_fa'].join(' ').match?(PERSIAN_PATTERN)
+      errors << "#{label}: verification_fa must contain Persian text"
+    end
+
+    if control['evidence_fa'].is_a?(Array) &&
+       !control['evidence_fa'].join(' ').match?(PERSIAN_PATTERN)
+      errors << "#{label}: evidence_fa must contain Persian text"
     end
 
     control_count += 1
@@ -99,4 +134,4 @@ if errors.any?
   exit 1
 end
 
-puts "Validated #{control_count} controls across #{files.length} files; all IDs are unique."
+puts "Validated #{control_count} fully bilingual controls across #{files.length} files; all IDs are unique."
