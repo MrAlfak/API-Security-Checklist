@@ -1,0 +1,54 @@
+name: Security standard or control update
+about: Propose a new control or update guidance based on an authoritative source
+labels: [security, documentation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for OWASP, NIST, IETF/RFC, protocol, or other authoritative security-guidance changes.
+  - type: input
+    id: control
+    attributes:
+      label: Existing control ID
+      description: Leave blank if this is a new control.
+      placeholder: OAUTH-PKCE-001
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed security change
+      description: State the security property that should be added or corrected.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Authoritative source
+      description: Link or identify the OWASP/NIST/RFC/official source supporting the change.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: How should it be verified?
+      description: Include at least one concrete positive or negative test idea.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Primary API scope
+      options:
+        - All APIs
+        - REST / HTTP API
+        - Browser-facing API
+        - OAuth / OIDC
+        - JWT / JOSE
+        - GraphQL
+        - gRPC
+        - WebSocket / streaming
+        - Webhook
+        - Multi-tenant SaaS
+        - Internal / M2M
+        - Supply chain / operations
+    validations:
+      required: true
