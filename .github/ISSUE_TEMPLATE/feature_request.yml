@@ -1,0 +1,43 @@
+name: Feature request
+about: Suggest a new capability, workflow, export, or documentation improvement
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve API Security Checklist. Please describe the practical problem first.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What security, audit, automation, or contributor workflow is difficult today?
+      placeholder: We need to filter/export controls by...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Machine-readable controls
+        - Documentation
+        - Verification/testing
+        - Standards mapping
+        - Examples
+        - Persian translation
+        - CI/automation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References or examples
+      description: Add authoritative sources or similar tools when relevant.
