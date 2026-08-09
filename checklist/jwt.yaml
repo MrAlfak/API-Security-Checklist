@@ -6,10 +6,16 @@ controls:
     applies_to: [all]
     requirement: >-
       JWT verification uses an explicit server-side algorithm allowlist and each key is restricted to its intended algorithm/use.
+    requirement_fa: >-
+      اعتبارسنجی JWT باید از Allowlist صریح الگوریتم‌ها در سمت سرور استفاده کند و هر کلید فقط برای الگوریتم و کاربرد تعیین‌شده خود قابل استفاده باشد.
     verification:
       - Change the token algorithm to none or another unsupported algorithm and verify rejection.
       - Attempt symmetric/asymmetric key confusion and verify rejection.
+    verification_fa:
+      - الگوریتم Token را به none یا یک الگوریتم پشتیبانی‌نشده تغییر دهید و رد شدن آن را بررسی کنید.
+      - حمله Key Confusion بین کلید متقارن و نامتقارن را آزمایش و رد شدن آن را بررسی کنید.
     evidence: [JWT verification configuration, negative token tests]
+    evidence_fa: [پیکربندی اعتبارسنجی JWT, تست‌های منفی Token]
     references: [RFC 8725]
 
   - id: JWT-CLAIMS-002
@@ -19,10 +25,16 @@ controls:
     applies_to: [all]
     requirement: >-
       JWT consumers validate the expected issuer, audience, cryptographic integrity, and required time/policy claims before trusting token data.
+    requirement_fa: >-
+      مصرف‌کننده JWT باید پیش از اعتماد به داده Token، Issuer، Audience، یکپارچگی رمزنگاری‌شده و Claimهای زمانی یا سیاستی لازم را اعتبارسنجی کند.
     verification:
       - Test wrong issuer and wrong audience tokens.
       - Test expired/not-yet-valid tokens and failed signatures.
+    verification_fa:
+      - Token با Issuer و Audience نادرست را آزمایش کنید.
+      - Tokenهای منقضی، هنوز معتبرنشده و دارای Signature نامعتبر را آزمایش کنید.
     evidence: [token validation tests, verifier configuration]
+    evidence_fa: [تست‌های اعتبارسنجی Token, پیکربندی Verifier]
     references: [RFC 8725]
 
   - id: JWT-TYPE-003
@@ -32,10 +44,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Different token kinds use mutually exclusive validation rules and explicit purpose/type controls so a token cannot be substituted across security contexts.
+    requirement_fa: >-
+      انواع مختلف Token باید قواعد اعتبارسنجی متقابلاً مجزا و کنترل صریح Purpose/Type داشته باشند تا یک Token نتواند بین Contextهای امنیتی جایگزین شود.
     verification:
       - Present an ID/reset/verification token where an access token is expected and verify rejection.
       - Verify token-type policies differ where token purposes differ.
+    verification_fa:
+      - یک ID Token یا Token بازنشانی/تأیید را در محلی که Access Token انتظار می‌رود ارائه کنید و رد شدن آن را بررسی کنید.
+      - بررسی کنید در کاربردهای متفاوت، سیاست Token Type نیز متفاوت و صریح باشد.
     evidence: [token-type matrix, negative tests]
+    evidence_fa: [ماتریس Token Type, تست‌های منفی]
     references: [RFC 8725]
 
   - id: JWT-KEY-004
@@ -45,10 +63,16 @@ controls:
     applies_to: [all]
     requirement: >-
       Signing/verification keys come only from trusted configured sources, support controlled rotation, and do not use token headers as arbitrary file/network lookup locations.
+    requirement_fa: >-
+      کلیدهای امضا و اعتبارسنجی باید فقط از منابع قابل اعتماد و پیکربندی‌شده دریافت شوند، Rotation کنترل‌شده را پشتیبانی کنند و Headerهای Token نباید به‌عنوان مسیر دلخواه فایل یا Network Lookup استفاده شوند.
     verification:
       - Supply unknown or malicious kid/jku values and verify safe failure without arbitrary retrieval.
       - Exercise planned old/new key overlap and retirement.
+    verification_fa:
+      - مقادیر ناشناخته یا مخرب برای kid/jku ارسال کنید و Fail امن بدون دریافت دلخواه منبع را بررسی کنید.
+      - هم‌پوشانی برنامه‌ریزی‌شده کلید قدیم/جدید و بازنشستگی کلید قدیمی را آزمایش کنید.
     evidence: [JWKS/key configuration, rotation test]
+    evidence_fa: [پیکربندی JWKS یا کلید, تست Rotation]
     references: [RFC 8725]
 
   - id: JWT-SECRET-005
@@ -58,8 +82,14 @@ controls:
     applies_to: [all]
     requirement: >-
       Required signing/verifying key material is not hardcoded and the service fails closed when required key configuration is missing.
+    requirement_fa: >-
+      اطلاعات کلید لازم برای امضا یا اعتبارسنجی نباید Hardcode شوند و در صورت نبود پیکربندی کلید لازم، سرویس باید Fail-Closed رفتار کند.
     verification:
       - Start the service without required signing key configuration and verify startup/request failure rather than automatic random-key fallback.
       - Scan source and CI logs for embedded key material.
+    verification_fa:
+      - سرویس را بدون پیکربندی کلید امضا اجرا کنید و به‌جای ساخت خودکار کلید تصادفی، شکست Startup یا Request را بررسی کنید.
+      - Source و لاگ‌های CI را برای وجود اطلاعات کلید Embedشده Scan کنید.
     evidence: [startup test, secret scan, key-management configuration]
+    evidence_fa: [تست Startup, Secret Scan, پیکربندی مدیریت کلید]
     references: [RFC 8725, OWASP ASVS 5.0.0]
